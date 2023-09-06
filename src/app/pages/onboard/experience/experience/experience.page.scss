@@ -1,0 +1,29 @@
+.header-bck {
+  background-color: #28a745;
+  margin-top: 0px;
+  min-height: 22vh;
+  max-height: auto;
+  margin-bottom: -30px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-toolbar {
+  --background: #28a745;
+}
+
+.logo-h1 {
+  margin: 30px auto;
+}
+
+.logo-img {
+  width: 180px !important;
+  height: auto;
+  margin: 5px auto;
+}
+.slogan {
+  color: white;
+  text-align: center;
+  font-size: medium;
+  margin-top: -5px;
+}

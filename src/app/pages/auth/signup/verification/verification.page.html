@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="header-bck">
+      <ion-buttons slot="start">
+        <!-- <ion-back-button defaultHref="/patient/service"></ion-back-button> -->
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="modal-card">
+    <ion-card-header>
+
+    </ion-card-header>
+    <ion-card-content>
+      <p>A six digit code has been sent to your <a><u>{{ data.email }}</u></a>. <br>
+        Enter the code to verify your account</p>
+      <hr>
+      <!-- <ion-input type="text" [(ngModel)]="verificationCode"></ion-input> -->
+      <ion-input label="Vefication Code" label-placement="floating" fill="outline" placeholder="Enter code"
+        [(ngModel)]="verificationCode"></ion-input>
+
+      <div class="action-buttons">
+        <ion-button color="success" (click)="resend()">
+          Resend
+          <ion-icon name="repeat-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="success" (click)="submit()">
+          Submit
+          <ion-icon name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

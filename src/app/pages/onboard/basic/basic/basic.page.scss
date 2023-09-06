@@ -1,0 +1,110 @@
+.header-bck {
+  background-color: #28a745;
+  margin-top: 0px;
+  // min-height: 20vh;
+  max-height: auto;
+  // margin-bottom: -30px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+ion-toolbar {
+  --background: #28a745;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.logo-h1 {
+  margin: 30px auto;
+}
+
+.logo-img {
+  width: 180px !important;
+  height: auto;
+  margin: 5px auto;
+}
+
+.hm-01 ion-card-header {
+  --margin-top: 30px;
+}
+ion-content {
+  background-color: white;
+  padding: 0;
+}
+
+.welcome-heading {
+  text-align: center;
+  margin-top: 3px;
+  font-weight: bold;
+  font-size: 17px;
+}
+.slogan {
+  color: white;
+  text-align: center;
+  font-size: medium;
+  margin-top: -5px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+}
+
+.action-buttons {
+  margin: 20px auto;
+  background-color: white;
+}
+ion-content {
+  --background: #f4f4f4;
+}
+
+a {
+  text-decoration: underline;
+  color: blue;
+}
+
+form {
+  margin: 30px auto;
+}
+
+ion-button.login-button {
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; /* You can adjust the width as needed */
+}
+a {
+  text-decoration: underline;
+  color: #c30047;
+}
+
+ion-row {
+  margin-top: 5vh;
+}
+.signin-cls {
+  margin: 14vh auto;
+}
+
+.remeber-me {
+  color: #28a745;
+}
+
+ion-list {
+  width: 100%;
+}
+
+ion-datetime {
+  height: 15vh;
+  width: auto;
+  margin-top: 15px;
+  margin-bottom: 9px;
+  border-radius: 6px;
+}
