@@ -1,0 +1,73 @@
+.header-bck {
+  background-color: #28a745;
+  margin-top: 0px;
+  // min-height: 20vh;
+  max-height: auto;
+  // margin-bottom: -30px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+ion-toolbar {
+  --background: #28a745;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  --background: #28a745;
+}
+
+// .hm-01 ion-card-header {
+//   --margin-top: 30px;
+// }
+
+ion-content {
+  background-color: white;
+  padding: 0;
+}
+
+.welcome-heading {
+  text-align: center;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+.card-container {
+  padding: 10px;
+  width: 100%;
+}
+
+.onboarding-div h2 {
+  margin-left: 10px;
+}
+ion-input {
+  width: 92%;
+  margin-top: 2vh;
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+.photo-grid {
+  border: #28a745 1.5px solid;
+  border-radius: 6px;
+}
+
+.onboarding-div {
+  width: 80%;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #6bbc7e;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: left;
+  font-size: 28px;
+  margin-left: 10px;
+}
+
+.attachment {
+  margin-top: 3vh;
+  border: #28a745 2px solid;
+  border-radius: 8px;
+}

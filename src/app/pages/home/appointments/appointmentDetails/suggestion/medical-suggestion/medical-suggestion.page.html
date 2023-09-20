@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-bck"><br>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <h3>Suggestion</h3>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header class="suggestion-h">Medical Suggestions</ion-card-header>
+    <ion-card-content class="suggestion-b">
+      You are about to seggest {{ data.message }} to this patient. <br>
+      if you are sure click Proceed..
+    </ion-card-content>
+    <div class="action-button">
+      <ion-button shape="round" fill="outline" color="success" item-end (click)="submit()"> Proceed
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-button>
+    </div>
+
+
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="closeModal()" color="danger">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

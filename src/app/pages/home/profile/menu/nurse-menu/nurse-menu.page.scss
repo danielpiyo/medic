@@ -1,0 +1,23 @@
+.side-menu {
+  background-color: #39b366; /* Grenish background */
+}
+
+ion-list {
+  ion-item {
+    ion-icon {
+      color: #fff; /* White icon color */
+    }
+
+    &:hover {
+      box-shadow: 0px 0px 10px 5px rgba(255, 0, 0, 0.7); /* Redish shadow on hover */
+    }
+  }
+  --ion-background-color: #e0f3e4;
+}
+
+.profile-pic {
+  width: 70px;
+  height: auto;
+  margin: 10px auto;
+  border: 2px solid #39b366;
+}

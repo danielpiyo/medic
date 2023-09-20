@@ -1,0 +1,81 @@
+<div>
+  <br>
+  <ion-card class="ion-no-margin">
+    <ion-card-header>
+      <ion-row>
+        <ion-col size="6">
+          <div class="balance"> BALANCE(Ksh)</div>
+        </ion-col>
+        <ion-col size="1">
+
+        </ion-col>
+        <ion-col size="5">
+          <div class="amount">
+            2390.00
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+    <br>
+    <ion-card-content>
+      <ion-list>
+        <div class="recent-header"><ion-label style="text-align: center;">Recent Withdrawals</ion-label></div>
+        <ion-item>
+          <ion-row>
+            <ion-col size="4">
+              Aug 2, 2023
+            </ion-col>
+            <ion-col size="6">
+              Mpesa
+              0787678909
+            </ion-col>
+            <ion-col size="2">
+              Ksh.500
+            </ion-col>
+          </ion-row>
+        </ion-item>
+        <ion-item>
+          <ion-row>
+            <ion-col size="4">
+              Aug 2, 2023
+            </ion-col>
+            <ion-col size="6">
+              Mpesa
+              0787678909
+            </ion-col>
+            <ion-col size="2">
+              Ksh.500
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+      <br>
+      <br>
+      <!-- Recent payment -->
+      <ion-list>
+        <div class="past-header">
+          <ion-label style="text-align: center;">Past Payment</ion-label>
+        </div>
+        <ion-item *ngFor="let cappointment of filteredClosedAppointment; let i = index">
+          <ion-row>
+            <ion-col size="1">
+              {{ i + 1}}.
+            </ion-col>
+            <ion-col size="4">
+              {{ cappointment.createdDate | date: 'MMM d, y'}}
+            </ion-col>
+            <ion-col size="4">
+              {{cappointment.patient}}
+            </ion-col>
+            <ion-col size="3">
+              ksh.{{ cappointment.amount }}/=
+            </ion-col>
+          </ion-row>
+        </ion-item>
+        <div *ngIf="!filteredClosedAppointment">
+          <h1>No past payment</h1>
+        </div>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</div>

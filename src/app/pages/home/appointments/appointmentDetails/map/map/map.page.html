@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Location</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Map -->
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          Distance: {{ filteredOpenAppointment?.distance }} km
+
+        </ion-item>
+        <ion-item>
+          Contact: {{ filteredOpenAppointment?.contact }}
+
+        </ion-item>
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+  <div #mapElement id="map"></div>
+</ion-content>

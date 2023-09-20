@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // baseURL: 'http://online.zyptech.co.ke:3000/api',
+  baseURL: 'https://app.mclinic.co.ke:3000/api',
+  vedioUrl: 'http://localhost:5000',
+  // mapskey: 'AIzaSyDQNKtSVa4islU0JGBDc0kiUm6ELCY5UsU',
+  googleApiKey: 'AIzaSyB6Jlzmg4ji_ZssOn3SpKV5KrlpQedaZw8',
 };
 
 /*

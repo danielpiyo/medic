@@ -1,0 +1,56 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="header-bck">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/patient/service"></ion-back-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<div class="top-header">
+
+</div> -->
+
+<ion-menu side="start" contentId="main-content">
+  <app-nurse-menu></app-nurse-menu>
+</ion-menu>
+<div class="ion-page">
+  <ion-header>
+    <ion-toolbar class="top-header">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <!-- <ion-title>My Profile</ion-title> -->
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding prof-cont" [fullscreen]="true" id="main-content">
+    <div class="profile-container">
+      <div>
+        <ion-card class="ion-no-margin prof-card">
+          <ion-avatar class="profile-pic">
+            <ion-img src="../../../../assets/images/clinician.png"></ion-img>
+          </ion-avatar>
+          <div class="profile-pic-header">
+            <ion-card-header> {{ currentUser.name }} </ion-card-header>
+            <ion-card-content class="profile-pic-cont"> {{ currentUser.email }} </ion-card-content>
+          </div>
+        </ion-card>
+      </div>
+      <ion-list lines="none" class="profile-details">
+        <ion-item> Name: {{ currentUser.name }} </ion-item>
+        <ion-item> Email: {{ currentUser.email }} </ion-item>
+        <ion-item> Contact No: {{ currentUser.mobile }} </ion-item>
+        <ion-item> Location: {{ currentUser.address }} </ion-item>
+        <ion-item> Linces No: NXR5353JY </ion-item>
+      </ion-list>
+    </div>
+    <div class="action-button">
+      <ion-button (click)="editProfile()" shape="round" color="success">
+        <ion-icon name="share"></ion-icon>
+        Invite Friends
+      </ion-button>
+    </div>
+    <!-- <ion-button (click)="logOut()">LogOut</ion-button> -->
+  </ion-content>
+
+</div>

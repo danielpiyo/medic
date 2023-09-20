@@ -1,0 +1,84 @@
+.header-bck {
+  background-color: #28a745;
+  margin-top: 0px;
+  // min-height: 20vh;
+  max-height: auto;
+  // margin-bottom: -30px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+ion-toolbar {
+  --background: #28a745;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  --background: #28a745;
+}
+
+ion-content {
+  background-color: white;
+  padding: 0;
+}
+
+ion-segment {
+  --color: black;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+ion-chip {
+  //   --background: #f76969;
+  border-radius: 12px !important;
+  border: 1.2px solid #28a745;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 2%;
+}
+.appointment-dtls {
+  border-radius: 12px;
+  border: 1.6px solid #28a745;
+  margin-top: 2vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+ion-card-header {
+  text-align: center;
+  font-weight: bold;
+}
+.patient-details {
+  background-color: #ecf2ee;
+  height: auto;
+  border-radius: 9px;
+}
+.patient-details h2 {
+  text-align: center;
+}
+.patient-details ion-list {
+  background-color: #ecf2ee;
+}
+
+.details-textarea {
+  background-color: #fff;
+  border-radius: 7px;
+}
+ion-icon {
+  font-size: 30px; //Preferred size here
+}
+.iocons {
+  background-color: #ecf2ee;
+  border-radius: 4px;
+}
+.remeber-me {
+  color: #28a745;
+}
+
+#map {
+  height: 40%;
+  width: 100%;
+  border-radius: 7px;
+  border: #39b366 2.5px solid;
+}

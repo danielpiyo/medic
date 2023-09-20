@@ -1,0 +1,43 @@
+.header-bck {
+  background-color: #28a745;
+  margin-top: 0px;
+  // min-height: 20vh;
+  max-height: auto;
+  // margin-bottom: -30px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+ion-toolbar {
+  --background: #28a745;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  --background: #28a745;
+}
+
+.suggestion-h {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.suggestion-b {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+ion-card {
+  border: #28a745 1.5px solid;
+  border-radius: 8px;
+}
+.action-button {
+  float: right;
+}

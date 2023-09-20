@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-bck"><br>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <h3 class="welcome-heading">Mclinic</h3>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-title>
+    <div class="active-inactive">
+      <hr>
+      <div class="holder"> <ion-label>Availability: {{ toggleState ? 'Online' : 'Offline' }}</ion-label>
+        <ion-toggle slot="end" [(ngModel)]="toggleState" (ionChange)="toggleChanged()"></ion-toggle>
+      </div>
+    </div>
+  </ion-toolbar>
+  <div>
+    <ion-segment>
+      <ion-segment-button value="default" (click)="sectionAppointment()">
+        <ion-chip>Appointments</ion-chip>
+      </ion-segment-button>
+
+      <ion-segment-button value="segment" (click)="sectionSchedule()">
+        <ion-chip>My Schedule</ion-chip>
+      </ion-segment-button>
+
+      <ion-segment-button value="segment" (click)="sectionWallet()">
+        <ion-chip>My Wallet</ion-chip>
+      </ion-segment-button>
+    </ion-segment>
+
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card>
+
+    <div *ngIf="presenation ==='appointment'">
+      <app-appointments></app-appointments>
+    </div>
+
+    <div *ngIf="presenation ==='schedule'"> </div>
+
+    <div *ngIf="presenation ==='wallet'">
+      <app-new-payments></app-new-payments>
+    </div>
+
+
+  </ion-card>
+
+</ion-content>

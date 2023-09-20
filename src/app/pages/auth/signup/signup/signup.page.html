@@ -1,0 +1,51 @@
+<ion-content [fullscreen]="true">
+  <div class="header-bck">
+    <ion-buttons slot="start">
+      <!-- <ion-back-button defaultHref="/patient"></ion-back-button> -->
+    </ion-buttons>
+    <ion-toolbar>
+      <ion-title></ion-title>
+    </ion-toolbar>
+    <div class="logo-1">
+      <ion-img class="logo-img" src="../../../../assets/icon/logo.png"></ion-img>
+      <p class="slogan">Affordable, Accesible Healthcare</p>
+    </div>
+  </div>
+
+  <ion-card class="ion-no-margin hm-01">
+    <br><br>
+    <ion-card-header>
+      <ion-card-title>
+        <h1 class="welcome-heading">SIGN UP</h1>
+      </ion-card-title>
+    </ion-card-header>
+
+
+    <div class="card-container">
+      <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+        <ion-list>
+          <ion-item>
+            <ion-input formControlName="email" label="Email" type="email"></ion-input>
+          </ion-item>
+        </ion-list>
+        <br>
+
+        <br>
+
+
+        <ion-button shape="round" color="success" type="submit" [disabled]="signUpForm.invalid"
+          class="login-button">NEXT</ion-button>
+      </form>
+      <br>
+      <div class="signin-cls">
+        <ion-label>Already Member? <a (click)="openLoginModal()">Sign In</a></ion-label>
+      </div>
+    </div>
+  </ion-card>
+
+  <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="closeModal()" color="danger">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+</ion-content>

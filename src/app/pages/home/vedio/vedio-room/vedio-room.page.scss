@@ -1,0 +1,27 @@
+ion-toolbar {
+  --background: #28a745;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  --background: #28a745;
+}
+
+.no-video {
+  text-align: center; /* Center-align the text. */
+  padding: 20px; /* Add some spacing around the text. */
+  background-color: #f7f7f7; /* Apply a light background color. */
+  border: 1px solid #ccc; /* Add a border for separation. */
+  border-radius: 5px; /* Round the corners of the container. */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Apply a subtle box shadow for depth. */
+  margin: 20px auto; /* Center the container horizontally. */
+  max-width: 400px; /* Limit the width of the container. */
+}
+
+.no-video h2 {
+  font-size: 24px; /* Increase the font size for the main heading. */
+  margin-bottom: 10px; /* Add spacing between the headings. */
+}

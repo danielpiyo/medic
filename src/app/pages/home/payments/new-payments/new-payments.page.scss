@@ -1,0 +1,51 @@
+.amount {
+  background-color: rgb(193, 237, 193);
+  border-radius: 16px;
+  border: 2px solid green;
+  width: 100%;
+  text-align: center;
+  height: 4vh;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.balance {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.recent-header {
+  background-color: rgb(193, 237, 193);
+  border-radius: 16px;
+  border: 2px solid green;
+  width: 100%;
+  text-align: center;
+  height: 4vh;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.past-header {
+  background-color: rgb(240, 241, 212);
+  border-radius: 16px;
+  border: 2px solid rgb(241, 234, 98);
+  width: 100%;
+  text-align: center;
+  height: 4vh;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+ion-row {
+  width: 100%;
+}
+ion-col {
+  font-size: 13.5px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
