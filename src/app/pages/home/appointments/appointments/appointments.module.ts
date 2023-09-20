@@ -13,8 +13,9 @@ import { AppointmentsPage } from './appointments.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AppointmentsPageRoutingModule
+    AppointmentsPageRoutingModule,
   ],
-  declarations: [AppointmentsPage]
+  declarations: [AppointmentsPage],
+  exports: [AppointmentsPage],
 })
 export class AppointmentsPageModule {}

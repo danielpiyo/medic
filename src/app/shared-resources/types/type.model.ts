@@ -73,7 +73,8 @@ export interface User {
   name: string;
   email: string;
   reg_code: string;
-  password: string;
+  latitude: string;
+  longitude: string;
   mobile: string;
   address: string;
   location_id: number;
@@ -91,6 +92,8 @@ export interface LoginPayload {
 export interface LoginResponse {
   token: string;
   user: {
+    latitude: string;
+    longitude: string;
     email: string;
     name: string;
     mobile: string;
@@ -104,13 +107,37 @@ export interface SignupPayload {
   email: string;
 }
 
-export interface OnboardPayload {
+export interface BasicOnboardPayload {
+  nationalId: number;
+  dob: Date;
+  gender: string;
+  speciality_id: number;
   name: string;
   email: string;
   password: string;
   mobile: string;
   address: string;
   location_id: number;
+}
+
+export interface AcademicOnboardPayload {
+  email: string;
+  academic_org_issue: string;
+  academic_year_award: string;
+  lincesing_org: string;
+  level: string;
+  linces_no: string;
+  lincesing_year_award: string;
+}
+
+export interface ExperienceOnboardPayload {
+  email: string;
+  proffesional_org_name: string;
+  period_from: string;
+  period_to: string;
+  professional_position: string;
+  professional_role: string;
+  accept_terms: boolean;
 }
 
 export interface Locations {
@@ -160,6 +187,28 @@ export interface BookedAppointments {
   is_complete: boolean;
 }
 
+export interface MyAppointmentDetails {
+  id: number;
+  age: number;
+  user_id: number;
+  patient: string;
+  doctor: string;
+  service_id: number;
+  service: string;
+  distance: number;
+  amount: number;
+  contact: string;
+  is_complete: number;
+  createdDate: string;
+  bookTime: Date;
+  latitude: number;
+  longitude: number;
+  place: string;
+  hasChronic: string;
+  description: string;
+  PaymentStatus: string;
+  transactionCode?: any;
+}
 export interface VericationCodePayload {
   reg_code: string;
   email: string;
@@ -167,4 +216,16 @@ export interface VericationCodePayload {
 
 export interface VideoRoom {
   room_name: string;
+}
+export interface SuggestionMessage {
+  patient_id: number;
+  user_id: number;
+  message: string;
+}
+
+export interface AvailabilityPayload {
+  token: string;
+  status: boolean;
+  lat: number;
+  lng: number;
 }

@@ -1,15 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      <div class="header-bck"><br><br>
-        <!-- <div class="logo-1">
-          <ion-img class="logo-img" src="../../../../assets/icon/logo.png"></ion-img>
-          <p class="slogan">Affordable, Accesible Healthcare</p>
-        </div> -->
+      <div class="header-bck"><br>
       </div>
       <ion-card-header>
         <ion-card-title>
-          <h3 class="welcome-heading">BIO DATA SET UP</h3>
+          <h3 class="welcome-heading">Account Set up</h3>
         </ion-card-title>
       </ion-card-header>
     </ion-title>
@@ -21,79 +17,52 @@
 
   <ion-card class="ion-no-margin hm-01">
     <div class="card-container">
-      <ion-card>
-        <form [formGroup]="patientFormGroup" (ngSubmit)="onBoardPatient()">
-          <ion-list>
-            <!-- Name -->
-            <ion-item>
-              <ion-label position="floating">Enter Name:</ion-label>
-              <ion-input type="text" formControlName="name"></ion-input>
-            </ion-item>
-            <!-- Contact -->
-            <ion-item>
-              <ion-label position="floating">Contact Number:</ion-label>
-              <ion-input type="text" formControlName="mobile"></ion-input>
-            </ion-item>
-            <!-- Email -->
-            <ion-item>
-              <ion-label position="floating">N ID/Passport No:</ion-label>
-              <ion-input formControlName="nid" type="text"></ion-input>
-            </ion-item>
-            <!-- dob -->
-            <ion-item>
-              <ion-label position="floating">Date of Birth:</ion-label>
-              <ion-datetime formControlName="dob" presentation="month-year"></ion-datetime>
-              <!-- <ion-input formControlName="dob" type="email" ></ion-input> -->
-            </ion-item>
-            <!-- gender -->
-            <ion-item>
-              <ion-select formControlName="gender" label="Gender">
-                <ion-select-option value="Male">Male</ion-select-option>
-                <ion-select-option value="Female">Female</ion-select-option>
-              </ion-select>
-            </ion-item>
+      <ion-card style="width: 100%;">
+        <div class="heading-div">
+          <h2>Bio Data</h2>
+        </div>
+        <form [formGroup]="basicFormGroup" (ngSubmit)="onBoardNurse()">
+          <!-- NAme -->
+          <ion-input label-placement="floating" fill="outline" label="Enter Name:" type="text"
+            formControlName="name"></ion-input>
+          <!-- Contact -->
+          <ion-input label="Contact Number:" label-placement="floating" fill="outline" type="text"
+            formControlName="mobile"></ion-input>
+          <!-- National Id -->
+          <ion-input label="N ID/Passport No:" label-placement="floating" fill="outline" formControlName="nid"
+            type="text"></ion-input>
+          <!-- DOB -->
+          <ion-input label="Date of Birth:" label-placement="floating" fill="outline" formControlName="dob"
+            type="text"></ion-input>
+          <!-- Gender -->
+          <ion-select label-placement="floating" fill="outline" formControlName="gender" label="Gender">
+            <ion-select-option value="Male">Male</ion-select-option>
+            <ion-select-option value="Female">Female</ion-select-option>
+          </ion-select>
+          <!-- Speciality -->
+          <ion-select label-placement="floating" fill="outline" formControlName="speciality_id"
+            label="Select speciality">
+            <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
+              [value]="speciality.id">
+              {{speciality.name}}
+            </ion-select-option>
+          </ion-select>
+          <!-- Address -->
+          <ion-input label="Address" label-placement="floating" fill="outline" formControlName="address"></ion-input>
 
-            <!-- speciality -->
-            <ion-item>
-              <ion-label position="floating">Select speciality</ion-label>
-              <ion-select formControlName="speciality_id">
-                <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
-                  [value]="speciality.id">
-                  {{speciality.name}}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-            <!-- Address -->
-            <ion-item>
-              <ion-label position="floating">Address</ion-label>
-              <ion-input formControlName="address"></ion-input>
-            </ion-item>
-            <!-- location -->
-            <ion-item>
-              <ion-label position="floating">Select Location</ion-label>
-              <ion-select formControlName="location_id">
-                <ion-select-option *ngFor="let location of(locationsList | async); let i = index" [value]="location.id">
-                  {{location.name}}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-            <!-- Password -->
-            <ion-item>
-              <!-- <ion-label position="floating">Password</ion-label> -->
-              <ion-input formControlName="password" type="password" label="Password"></ion-input>
-            </ion-item>
-            <!-- Confirm Password -->
-            <ion-item>
-              <!-- <ion-label position="floating">Confirm Password</ion-label> -->
-              <ion-input formControlName="confirmPassword" type="password" label="Confirm Password"></ion-input>
-            </ion-item>
-
-          </ion-list>
-          <br>
-
-          <br>
-
-          <ion-button shape="round" color="success" type="submit" [disabled]="patientFormGroup.invalid"
+          <ion-select label-placement="floating" fill="outline" formControlName="location_id" label="Select Location">
+            <ion-select-option *ngFor="let location of(locationsList | async); let i = index" [value]="location.id">
+              {{location.name}}
+            </ion-select-option>
+          </ion-select>
+          <!-- Pasword -->
+          <ion-input label-placement="floating" fill="outline" formControlName="password" type="password"
+            label="Password"></ion-input>
+          <!-- Confirm Password -->
+          <ion-input label-placement="floating" fill="outline" formControlName="confirmPassword" type="password"
+            label="Confirm Password"></ion-input>
+          <!-- ActionButton -->
+          <ion-button shape="round" color="success" type="submit" [disabled]="basicFormGroup.invalid"
             class="login-button">NEXT</ion-button>
         </form>
       </ion-card>

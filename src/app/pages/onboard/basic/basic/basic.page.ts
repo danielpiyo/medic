@@ -11,9 +11,9 @@ import { SignupService } from 'src/app/shared-resources/auth/signup/signup.servi
 import { LocationService } from 'src/app/shared-resources/onboard/location/location.service';
 import { SpecialitiesService } from 'src/app/shared-resources/onboard/speciality/specialities.service';
 import {
+  BasicOnboardPayload,
   Locations,
   LoginResponse,
-  OnboardPayload,
   Speciality,
 } from 'src/app/shared-resources/types/type.model';
 
@@ -23,7 +23,7 @@ import {
   styleUrls: ['./basic.page.scss'],
 })
 export class BasicPage implements OnInit, OnDestroy {
-  patientFormGroup!: FormGroup;
+  basicFormGroup!: FormGroup;
   locationsList!: Observable<Locations[]>;
   specialityList!: Observable<Speciality[]>;
   responseData!: LoginResponse;
@@ -49,11 +49,12 @@ export class BasicPage implements OnInit, OnDestroy {
       }
     });
     this.getLocations();
+    this.getSpecialities();
     this.initForm();
   }
 
   initForm() {
-    this.patientFormGroup = this.formBuilder.group({
+    this.basicFormGroup = this.formBuilder.group({
       name: ['', Validators.required],
       nid: ['', Validators.required],
       dob: ['', Validators.required],
@@ -67,44 +68,42 @@ export class BasicPage implements OnInit, OnDestroy {
     });
   }
 
-  async onBoardPatient() {
+  async onBoardNurse() {
     if (
-      this.patientFormGroup.valid &&
-      this.patientFormGroup.value.confirmPassword ===
-        this.patientFormGroup.value.password
+      this.basicFormGroup.valid &&
+      this.basicFormGroup.value.confirmPassword ===
+        this.basicFormGroup.value.password
     ) {
-      const patientDetails: OnboardPayload = {
-        name: this.patientFormGroup.get('name')!.value,
+      const nurseDetails: BasicOnboardPayload = {
+        nationalId: this.basicFormGroup.get('nid')!.value,
+        dob: this.basicFormGroup.get('dob')!.value,
+        gender: this.basicFormGroup.get('gender')!.value,
+        speciality_id: this.basicFormGroup.get('speciality_id')!.value,
+        name: this.basicFormGroup.get('name')!.value,
         email: this.UserEmail,
-        password: this.patientFormGroup.get('password')!.value,
-        mobile: this.patientFormGroup.get('mobile')!.value,
-        address: this.patientFormGroup.get('address')!.value,
-        location_id: this.patientFormGroup.get('location_id')!.value,
+        password: this.basicFormGroup.get('password')!.value,
+        mobile: this.basicFormGroup.get('mobile')!.value,
+        address: this.basicFormGroup.get('address')!.value,
+        location_id: this.basicFormGroup.get('location_id')!.value,
       };
+      console.log('Details', nurseDetails);
 
       try {
         const loading = await this.showLoading(); // Display loading spinner
 
         this.dataSubscription = this.onboardService
-          .onBoard(patientDetails)
+          .basicOnBoard(nurseDetails)
           .subscribe(
             (response: any) => {
               // Data fetching is already handled by subscription
               this.dismissLoading(loading); // Dismiss the loading spinner
               this.presentSuccessAlert();
-              this.responseData = response;
-              localStorage.setItem(
-                'currentUser',
-                JSON.stringify(this.responseData.user)
-              );
-              localStorage.setItem(
-                'currentToken',
-                JSON.stringify(this.responseData.token)
-              );
-              localStorage.setItem('LoggedIn', 'Yes');
-              const returnUrl =
-                this.route.snapshot.queryParams['returnUrl'] || '/patient/main';
-              this.router.navigateByUrl(returnUrl);
+
+              this.router.navigate(['/signup/onboard-academic'], {
+                queryParams: {
+                  email: this.UserEmail,
+                },
+              });
             },
             (error: any) => {
               this.dismissLoading(loading); // Dismiss the loading spinner on error

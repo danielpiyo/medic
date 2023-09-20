@@ -6,8 +6,10 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
   SignupPayload,
-  OnboardPayload,
+  BasicOnboardPayload,
   VericationCodePayload,
+  AcademicOnboardPayload,
+  ExperienceOnboardPayload,
 } from '../../types/type.model';
 @Injectable({
   providedIn: 'root',
@@ -17,14 +19,34 @@ export class SignupService {
 
   signUp(signUpPaylod: SignupPayload): Observable<SignupPayload> {
     return this._http.post<SignupPayload>(
-      `${environment.baseURL}/signup`,
+      `${environment.baseURL}/doctorSinup`,
       signUpPaylod
     );
   }
 
-  onBoard(onboardPayload: OnboardPayload): Observable<OnboardPayload> {
-    return this._http.post<OnboardPayload>(
-      `${environment.baseURL}/register`,
+  basicOnBoard(
+    onboardPayload: BasicOnboardPayload
+  ): Observable<BasicOnboardPayload> {
+    return this._http.post<BasicOnboardPayload>(
+      `${environment.baseURL}/doctorBasic`,
+      onboardPayload
+    );
+  }
+
+  academicOnBoard(
+    academicOnboardPayload: AcademicOnboardPayload
+  ): Observable<AcademicOnboardPayload> {
+    return this._http.post<AcademicOnboardPayload>(
+      `${environment.baseURL}/doctorAcademic`,
+      academicOnboardPayload
+    );
+  }
+
+  experienceOnBoard(
+    onboardPayload: ExperienceOnboardPayload
+  ): Observable<ExperienceOnboardPayload> {
+    return this._http.post<ExperienceOnboardPayload>(
+      `${environment.baseURL}/doctorExperince`,
       onboardPayload
     );
   }
@@ -33,7 +55,7 @@ export class SignupService {
     verificationData: VericationCodePayload
   ): Observable<VericationCodePayload> {
     return this._http.post<VericationCodePayload>(
-      `${environment.baseURL}/verify`,
+      `${environment.baseURL}/doctorVerify`,
       verificationData
     );
   }

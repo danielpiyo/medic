@@ -6,8 +6,13 @@ import { AppointmentDetailsPage } from './appointment-details.page';
 const routes: Routes = [
   {
     path: '',
-    component: AppointmentDetailsPage
-  }
+    component: AppointmentDetailsPage,
+  },
+  {
+    path: 'map',
+    loadChildren: () =>
+      import('../map/map/map.module').then((m) => m.MapPageModule),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,20 @@
+#map {
+  height: 65%;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-radius: 7px;
+  border: #39b366 2.5px solid;
+}
+
+ion-toolbar {
+  --background: #28a745;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+ion-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  --background: #28a745;
+}

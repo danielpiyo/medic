@@ -7,15 +7,13 @@ const routes: Routes = [
   {
     path: '',
     component: AppointmentsPage,
-    children: [
-      {
-        path: 'appointment-details',
-        loadChildren: () =>
-          import(
-            '../appointmentDetails/appointment-details/appointment-details.module'
-          ).then((m) => m.AppointmentDetailsPageModule),
-      },
-    ],
+  },
+  {
+    path: 'appointment-details',
+    loadChildren: () =>
+      import(
+        '../appointmentDetails/appointment-details/appointment-details.module'
+      ).then((m) => m.AppointmentDetailsPageModule),
   },
 ];
 

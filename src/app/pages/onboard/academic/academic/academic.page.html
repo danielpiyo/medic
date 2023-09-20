@@ -1,16 +1,15 @@
 <ion-header [translucent]="true">
-  <div class="header-bck">
-    <ion-buttons slot="start">
-      <!-- <ion-back-button defaultHref="/patient"></ion-back-button> -->
-    </ion-buttons>
-    <ion-toolbar>
-      <ion-title></ion-title>
-    </ion-toolbar>
-    <div class="logo-1">
-      <ion-img class="logo-img" src="../../../../assets/icon/logo.png"></ion-img>
-      <p class="slogan">Affordable, Accesible Healthcare</p>
-    </div>
-  </div>
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-bck"><br>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <h3 class="welcome-heading">Qualification Set up</h3>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -19,4 +18,68 @@
       <ion-title size="large">academic</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-card class="ion-no-margin hm-01">
+    <div class="card-container">
+      <ion-card>
+        <div class="onboarding-div">
+          <h2>Academic Qualification</h2>
+        </div>
+        <form [formGroup]="academicFormGroup" (ngSubmit)="addAcademicData()">
+          <!-- Qualification -->
+          <ion-input label-placement="floating" fill="outline" label="Education Level:" type="text"
+            formControlName="level"></ion-input>
+
+          <!-- Organization -->
+
+          <ion-input label-placement="floating" fill="outline" label="Issuing Organization:" type="text"
+            formControlName="academic_org_issue"></ion-input>
+
+          <!-- Year -->
+
+          <ion-input label-placement="floating" fill="outline" label="Year of Award:"
+            formControlName="academic_year_award" type="text"></ion-input>
+
+          <!-- Professional -->
+          <div class="onboarding-div">
+            <h2>Lincensing Information</h2>
+          </div>
+          <hr>
+          <ion-input label-placement="floating" fill="outline" label="Lincesing Organization:" type="text"
+            formControlName="lincesing_org"></ion-input>
+
+          <ion-input label-placement="floating" fill="outline" label="lincense No:" type="text"
+            formControlName="linces_no"></ion-input>
+
+          <ion-input label-placement="floating" fill="outline" label="Year of Award:" type="text"
+            formControlName="lincesing_year_award"></ion-input>
+          <!-- camera -->
+          <div class="attachment">
+            <div class="onboarding-div">
+              <h2>File Attachment</h2>
+            </div>
+            <ion-button (click)="addLincesesToGallary()">
+              <ion-icon name="camera"></ion-icon>
+              Attach/ Capture
+            </ion-button>
+
+            <ion-grid class="photo-grid">
+              <ion-row>
+                <ion-col size="6" *ngFor="let linces of lincessService.lincesPhotos; index as position">
+                  <ion-img [src]="linces.webviewPath" (click)="showLincesActionSheet(linces, position)"></ion-img>
+                  <ion-button (click)="uploadLincesesNow(linces.webviewPath)">
+                    <ion-icon name="cloud"></ion-icon>
+                    Upload
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <br>
+
+          <ion-button shape="round" color="success" type="submit" [disabled]="academicFormGroup.invalid"
+            class="login-button">NEXT</ion-button>
+        </form>
+      </ion-card>
+    </div>
+  </ion-card>
 </ion-content>

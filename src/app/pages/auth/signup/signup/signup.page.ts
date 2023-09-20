@@ -53,7 +53,7 @@ export class SignupPage implements OnInit, OnDestroy {
             (res) => {
               this.dismissLoading(loading);
               this.openVerifyModal(signUpPayload);
-              this.closeModal();
+              // this.closeModal();
             },
             (error) => {
               this.dismissLoading(loading); // Dismiss the loading spinner on error
@@ -72,7 +72,7 @@ export class SignupPage implements OnInit, OnDestroy {
     if (openModal) {
       this.modalController.dismiss();
     } else {
-      this.router.navigate(['/patient']);
+      this.router.navigate(['/verify']);
       // Do something else when there is no open modal
       console.log('No open modal found. Doing something else...');
     }
@@ -109,6 +109,7 @@ export class SignupPage implements OnInit, OnDestroy {
   }
 
   async openVerifyModal(data: SignupPayload) {
+    console.log('Data', data);
     const modalInstance = await this.modalController.create({
       component: VerificationPage,
       componentProps: {

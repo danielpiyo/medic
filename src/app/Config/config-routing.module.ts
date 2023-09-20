@@ -1,21 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConfigPage } from './config.page';
+import { AuthGuard } from '../directives/guard/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
+    canActivate: [AuthGuard],
     component: ConfigPage,
     children: [
       {
-        path: '',
+        path: 'dashboard',
+
         loadChildren: () =>
           import('../pages/home/dashboard/dashboard/dashboard.module').then(
             (m) => m.DashboardPageModule
           ),
       },
       {
-        path: 'appintments',
+        path: 'vedio',
+
+        loadChildren: () =>
+          import('../pages/home/vedio/vedio-room/vedio-room.module').then(
+            (m) => m.VedioRoomPageModule
+          ),
+      },
+      {
+        path: 'appointments',
+
         loadChildren: () =>
           import(
             '../pages/home/appointments/appointments/appointments.module'
@@ -23,6 +35,7 @@ const routes: Routes = [
       },
       {
         path: 'payments',
+
         loadChildren: () =>
           import(
             '../pages/home/payments/new-payments/new-payments.module'
@@ -30,6 +43,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
+
         loadChildren: () =>
           import('../pages/home/profile/profile/profile.module').then(
             (m) => m.ProfilePageModule
@@ -37,7 +51,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/home',
+        redirectTo: '/dashboard',
         pathMatch: 'full',
       },
     ],
@@ -54,6 +68,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('../pages/auth/signup/signup/signup.module').then(
         (m) => m.SignupPageModule
+      ),
+  },
+  {
+    path: 'verify',
+    loadChildren: () =>
+      import('../pages/auth/signup/verification/verification.module').then(
+        (m) => m.VerificationPageModule
       ),
   },
   {

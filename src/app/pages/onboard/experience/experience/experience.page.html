@@ -1,16 +1,15 @@
 <ion-header [translucent]="true">
-  <div class="header-bck">
-    <ion-buttons slot="start">
-      <!-- <ion-back-button defaultHref="/patient"></ion-back-button> -->
-    </ion-buttons>
-    <ion-toolbar>
-      <ion-title></ion-title>
-    </ion-toolbar>
-    <div class="logo-1">
-      <ion-img class="logo-img" src="../../../../assets/icon/logo.png"></ion-img>
-      <p class="slogan">Affordable, Accesible Healthcare</p>
-    </div>
-  </div>
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-bck"><br>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <h3 class="welcome-heading">Professional Set up</h3>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -19,4 +18,51 @@
       <ion-title size="large">experience</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-card class="ion-no-margin hm-01">
+    <div class="card-container">
+      <ion-card>
+        <div class="onboarding-div">
+          <h2>Profesional Profile</h2>
+        </div>
+        <form [formGroup]="profileFormGroup" (ngSubmit)="addProfessionalData()">
+          <br>
+
+          <!-- Qualification -->
+          <ion-input label-placement="floating" fill="outline" label="Name of Organization:" type="text"
+            formControlName="proffesional_org_name"></ion-input>
+          <!-- Organization -->
+          <ion-row>
+            <ion-col size="5">
+              <ion-input label-placement="floating" fill="outline" label="From:" type="number"
+                formControlName="period_from"></ion-input>
+            </ion-col>
+            <ion-col size="2"></ion-col>
+            <ion-col size="5">
+              <ion-input label-placement="floating" fill="outline" label="To:" type="number"
+                formControlName="period_to"></ion-input>
+            </ion-col>
+          </ion-row>
+          <!-- Year -->
+          <ion-input label-placement="floating" fill="outline" label="Position:" formControlName="professional_position"
+            type="text"></ion-input>
+          <!-- Role -->
+          <ion-textarea label-placement="floating" fill="outline" label="Role:" rows="5"
+            placeholder="Type your role & responsibilities" formControlName="professional_role"></ion-textarea>
+
+          <br>
+          <ion-row>
+            <ion-col size="">
+              <ion-checkbox formControlName="accept_terms" labelPlacement="end" class="remeber-me"></ion-checkbox>
+            </ion-col>
+            <ion-col size="10">
+              <P>by submiting this form you agree to our privacy policy & terms and condition</P>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+          </ion-row>
+          <ion-button shape="round" color="success" type="submit" [disabled]="profileFormGroup.invalid"
+            class="login-button">SUBMIT</ion-button>
+        </form>
+      </ion-card>
+    </div>
+  </ion-card>
 </ion-content>

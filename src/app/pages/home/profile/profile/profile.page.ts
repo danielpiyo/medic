@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/shared-resources/auth/login/login.service';
+import { User } from 'src/app/shared-resources/types/type.model';
 
 @Component({
   selector: 'app-profile',
@@ -6,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  currentUser!: User;
+  constructor(private _logOutServive: LoginService, private _router: Router) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   }
 
+  ngOnInit(): void {}
+  logOut() {
+    this._logOutServive.logout();
+    this._router.navigate(['/login']);
+  }
+
+  editProfile() {}
 }

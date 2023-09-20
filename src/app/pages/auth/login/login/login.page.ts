@@ -68,7 +68,8 @@ export class LoginPage implements OnInit {
       const loading = await this.showLoading(); // Display loading spinner
       this.dataSubscription = this.loginService.logIn(loginPayload).subscribe(
         (response: any) => {
-          this.presentSuccessAlert();
+          this.dismissLoading(loading);
+          // this.presentSuccessAlert();
           this.responseData = response;
           localStorage.setItem(
             'currentUser',
@@ -80,22 +81,22 @@ export class LoginPage implements OnInit {
           );
           localStorage.setItem('LoggedIn', 'Yes');
           const returnUrl =
-            this.route.snapshot.queryParams['returnUrl'] || '/patient/main';
+            this.route.snapshot.queryParams['returnUrl'] || '/home/dashboard';
           this._router.navigateByUrl(returnUrl);
           // this._router.navigate(['/patient']);
           if (this.signupModal) {
             this.signupModal.dismiss();
           }
           this.closeModal();
-          this.dismissLoading(loading);
         },
         (error: any) => {
           this.dismissLoading(loading); // Dismiss the loading spinner on error
           this.presentErrorAlert(error.error);
         }
       );
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error while displaying/loading spinner:', error);
+      this.presentErrorAlert(error.error);
     }
   }
 
@@ -126,7 +127,7 @@ export class LoginPage implements OnInit {
     if (openModal) {
       this.modalController.dismiss();
     } else {
-      this._router.navigate(['/patient']);
+      this._router.navigate(['/home/dashboard']);
     }
   }
   async presentSuccessAlert() {

@@ -49,7 +49,7 @@ export class VerificationPage implements OnInit, OnDestroy {
             this.dismissLoading(loading);
             this.presentSuccessAlert();
             this.closeModal();
-            this.router.navigate(['/signup/onboard'], {
+            this.router.navigate(['/signup/onboard-basic'], {
               queryParams: {
                 email: this.data.email,
               },

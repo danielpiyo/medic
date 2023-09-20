@@ -13,8 +13,9 @@ import { NewPaymentsPage } from './new-payments.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    NewPaymentsPageRoutingModule
+    NewPaymentsPageRoutingModule,
   ],
-  declarations: [NewPaymentsPage]
+  declarations: [NewPaymentsPage],
+  exports: [NewPaymentsPage],
 })
 export class NewPaymentsPageModule {}

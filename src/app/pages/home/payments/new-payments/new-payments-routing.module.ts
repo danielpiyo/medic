@@ -7,15 +7,13 @@ const routes: Routes = [
   {
     path: '',
     component: NewPaymentsPage,
-    children: [
-      {
-        path: 'payment-details',
-        loadChildren: () =>
-          import(
-            '../paymentDetails/payment-details/payment-details.module'
-          ).then((m) => m.PaymentDetailsPageModule),
-      },
-    ],
+  },
+  {
+    path: 'payment-details',
+    loadChildren: () =>
+      import('../paymentDetails/payment-details/payment-details.module').then(
+        (m) => m.PaymentDetailsPageModule
+      ),
   },
 ];
 

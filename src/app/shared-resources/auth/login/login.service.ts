@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { LoginPayload } from '../../types/type.model';
+import { LoginPayload, User } from '../../types/type.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,7 @@ export class LoginService {
   private inactivityTimeout: number = 300000; // 5 minutes in milliseconds
   private timer: any;
   private isAuthenticated = false;
+  currentUser!: User;
 
   constructor(private _http: HttpClient, private router: Router) {
     this.userLoggedIn.next(false);
@@ -27,10 +28,16 @@ export class LoginService {
     return this.userLoggedIn.asObservable();
   }
 
+  getCurrentUser() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log(this.currentUser);
+    return this.currentUser;
+  }
+
   logIn(logiPaylod: LoginPayload): Observable<LoginPayload> {
     this.isAuthenticated = true;
     return this._http.post<LoginPayload>(
-      `${environment.baseURL}/signin`,
+      `${environment.baseURL}/doctorSignin`,
       logiPaylod
     );
   }
@@ -50,7 +57,7 @@ export class LoginService {
     window.history.pushState({}, '', '');
     this.setUserLoggedIn(false);
     localStorage.clear();
-    this.router.navigate(['']);
+    this.router.navigate(['/login']);
   }
 
   isAuthenticatedUser(): boolean {
