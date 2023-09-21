@@ -1,0 +1,39 @@
+.appointment-div {
+  width: 100%;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #6bbc7e;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: left;
+  font-size: 10px;
+  margin-left: 10px;
+}
+
+.appointment-div h2 {
+  margin-left: 5%;
+}
+
+.no-schedules {
+  text-align: center; /* Center-align the text. */
+  padding: 20px; /* Add some spacing around the text. */
+  background-color: #f7f7f7; /* Apply a light background color. */
+  border: 1px solid #ccc; /* Add a border for separation. */
+  border-radius: 5px; /* Round the corners of the container. */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Apply a subtle box shadow for depth. */
+  margin: 20px auto; /* Center the container horizontally. */
+  max-width: 400px; /* Limit the width of the container. */
+}
+
+.no-schedules h2 {
+  font-size: 24px; /* Increase the font size for the main heading. */
+  margin-bottom: 10px; /* Add spacing between the headings. */
+}
+
+.heading {
+  text-align: center;
+  font-size: 26px;
+  background-color: #6bbc7e72;
+  height: 3vh;
+  border-radius: 8px;
+}

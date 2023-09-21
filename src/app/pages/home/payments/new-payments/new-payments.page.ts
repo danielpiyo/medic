@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, take, timeout } from 'rxjs';
 import { AppointmentsService } from 'src/app/shared-resources/home/appointments/appointments.service';
 import {
   MyAppointmentDetails,
@@ -13,10 +13,10 @@ import {
   styleUrls: ['./new-payments.page.scss'],
 })
 export class NewPaymentsPage implements OnInit {
-  closedAppointmentLists!: Observable<MyAppointmentDetails[]>;
-  originalClosedAppointment: MyAppointmentDetails[] = [];
-  filteredClosedAppointment: MyAppointmentDetails[] = [];
-  dataClosedSubcription!: Subscription;
+  pasPaymentLists!: Observable<MyAppointmentDetails[]>;
+  originalPastPayment: MyAppointmentDetails[] = [];
+  filteredPastPayment: MyAppointmentDetails[] = [];
+  dataPastPaymentSubcription!: Subscription;
   userToken!: UserToken;
   modelData: any;
 
@@ -27,32 +27,56 @@ export class NewPaymentsPage implements OnInit {
     this.userToken = {
       token: JSON.parse(localStorage.getItem('currentToken') || '{}') as string,
     };
-    this.getClosedAppointments();
+    this.pastPayments();
   }
 
   async ngOnInit() {
     const loading = await this.showLoading();
     setTimeout(() => {
-      this.getClosedAppointments();
+      this.pastPayments();
       this.dismissLoading(loading);
     }, 4000);
   }
 
-  async getClosedAppointments() {
+  // async getClosedAppointments() {
+  //   const loading = await this.showLoading();
+  //   this.closedAppointmentLists =
+  //     this._appointmentService.getClosedAppointments(this.userToken);
+  //   this.dataClosedSubcription = this.closedAppointmentLists.subscribe(
+  //     (appointment: any) => {
+  //       this.dismissLoading(loading);
+  //       this.originalClosedAppointment = appointment; // Initialize the original list
+  //       this.filteredClosedAppointment = appointment; // Initialize the filtered list
+  //     },
+  //     (error) => {
+  //       this.dismissLoading(loading);
+  //       console.log(error.error.message);
+  //     }
+  //   );
+  // }
+
+  async pastPayments() {
     const loading = await this.showLoading();
-    this.closedAppointmentLists =
-      this._appointmentService.getClosedAppointments(this.userToken);
-    this.dataClosedSubcription = this.closedAppointmentLists.subscribe(
-      (appointment: any) => {
-        this.dismissLoading(loading);
-        this.originalClosedAppointment = appointment; // Initialize the original list
-        this.filteredClosedAppointment = appointment; // Initialize the filtered list
-      },
-      (error) => {
-        this.dismissLoading(loading);
-        console.log(error.error.message);
-      }
+    this.pasPaymentLists = this._appointmentService.getClosedAppointments(
+      this.userToken
     );
+    this.dataPastPaymentSubcription = this.pasPaymentLists
+      .pipe(
+        take(1),
+        timeout(10000) // Set a timeout of 10 seconds (adjust as needed)
+      )
+      .subscribe(
+        (appointment: any) => {
+          this.dismissLoading(loading);
+          this.originalPastPayment = appointment; // Initialize the original list
+          this.filteredPastPayment = appointment; // Initialize the filtered list
+        },
+        (error) => {
+          this.dismissLoading(loading);
+          console.log(error.error.message);
+        }
+      );
+    // this.dataOpenSubcription = this.openAppointmentLists.subscribe
   }
 
   applyClosedFilter(e: Event) {
@@ -60,9 +84,9 @@ export class NewPaymentsPage implements OnInit {
     const filterValue = target.value.trim().toLowerCase();
 
     if (filterValue === '') {
-      this.filteredClosedAppointment = this.originalClosedAppointment; // Restore the original list when filter is empty
+      this.filteredPastPayment = this.originalPastPayment; // Restore the original list when filter is empty
     } else {
-      this.filteredClosedAppointment = this.originalClosedAppointment.filter(
+      this.filteredPastPayment = this.originalPastPayment.filter(
         (appointment) =>
           appointment.service.toLowerCase().includes(filterValue) ||
           appointment.doctor.toLowerCase().includes(filterValue) // Adjust the property to filter by
@@ -87,8 +111,8 @@ export class NewPaymentsPage implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.dataClosedSubcription) {
-      this.dataClosedSubcription.unsubscribe();
+    if (this.dataPastPaymentSubcription) {
+      this.dataPastPaymentSubcription.unsubscribe();
     }
   }
 }

@@ -14,7 +14,9 @@ export class ProfilePage implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('Current User: ' + this.currentUser);
+  }
   logOut() {
     this._logOutServive.logout();
     this._router.navigate(['/login']);

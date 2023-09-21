@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'vedio-room',
     loadChildren: () => import('./pages/home/vedio/vedio-room/vedio-room.module').then( m => m.VedioRoomPageModule)
   },
+  {
+    path: 'schedules',
+    loadChildren: () => import('./pages/home/schedule/schedules/schedules.module').then( m => m.SchedulesPageModule)
+  },
 ];
 @NgModule({
   imports: [
