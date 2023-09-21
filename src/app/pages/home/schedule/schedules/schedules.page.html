@@ -19,18 +19,16 @@
         <ion-card>
           <ion-card-content>
             <ion-row>
-              <ion-col size="2">
-                No. {{ i +1 }}.)
+              <ion-col size="1">
+                {{ i +1 }}.
               </ion-col>
-              <ion-col size="9">
+              <ion-col size="11">
                 <!-- Second Column with Chip -->
                 <p>Service: {{ oappointment.service }}</p>
                 <h5>Booked Tome: {{ oappointment.bookTime | date: 'medium' }}</h5>
                 <div class="countdown">
                   <ion-chip>{{ timeRemaining }}</ion-chip>
                 </div>
-              </ion-col>
-              <ion-col size="1">
               </ion-col>
             </ion-row>
           </ion-card-content>

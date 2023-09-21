@@ -61,7 +61,7 @@ export class SchedulesPage implements OnInit, OnDestroy {
           this.dismissLoading(loading);
           this.originalOpenAppointment = appointment; // Initialize the original list
           this.filteredOpenAppointment = appointment; // Initialize the filtered list
-          console.log('Open Appointment', this.filteredOpenAppointment);
+          // console.log('Open Appointment', this.filteredOpenAppointment);
           this.filteredOpenAppointment.forEach((x) => {
             this.targetDate = new Date(x.bookTime);
           });

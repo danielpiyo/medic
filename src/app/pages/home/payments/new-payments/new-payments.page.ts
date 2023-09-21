@@ -38,23 +38,6 @@ export class NewPaymentsPage implements OnInit {
     }, 4000);
   }
 
-  // async getClosedAppointments() {
-  //   const loading = await this.showLoading();
-  //   this.closedAppointmentLists =
-  //     this._appointmentService.getClosedAppointments(this.userToken);
-  //   this.dataClosedSubcription = this.closedAppointmentLists.subscribe(
-  //     (appointment: any) => {
-  //       this.dismissLoading(loading);
-  //       this.originalClosedAppointment = appointment; // Initialize the original list
-  //       this.filteredClosedAppointment = appointment; // Initialize the filtered list
-  //     },
-  //     (error) => {
-  //       this.dismissLoading(loading);
-  //       console.log(error.error.message);
-  //     }
-  //   );
-  // }
-
   async pastPayments() {
     const loading = await this.showLoading();
     this.pasPaymentLists = this._appointmentService.getClosedAppointments(

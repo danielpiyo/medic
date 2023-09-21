@@ -69,7 +69,7 @@ export class AppointmentsPage implements OnInit {
           this.dismissLoading(loading);
           this.originalOpenAppointment = appointment; // Initialize the original list
           this.filteredOpenAppointment = appointment; // Initialize the filtered list
-          console.log('Open Appointment', this.filteredOpenAppointment);
+          // console.log('Open Appointment', this.filteredOpenAppointment);
           this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
         },
         (error) => {
@@ -79,26 +79,6 @@ export class AppointmentsPage implements OnInit {
       );
     // this.dataOpenSubcription = this.openAppointmentLists.subscribe
   }
-
-  // async getOpenApponments() {
-  //   const loading = await this.showLoading();
-  //   this.openAppointmentLists = this._appointmentService.getOpenAppointments(
-  //     this.userToken
-  //   );
-  //   this.dataOpenSubcription = this.openAppointmentLists.subscribe(
-  //     (appointment: any) => {
-  //       this.dismissLoading(loading);
-  //       this.originalOpenAppointment = appointment; // Initialize the original list
-  //       this.filteredOpenAppointment = appointment; // Initialize the filtered list
-  //       console.log('Open Appointment', this.filteredOpenAppointment);
-  //       this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
-  //     },
-  //     (error) => {
-  //       this.dismissLoading(loading);
-  //       console.log(error.error.message);
-  //     }
-  //   );
-  // }
 
   async getClosedAppointments() {
     const loading = await this.showLoading();
@@ -207,7 +187,7 @@ export class AppointmentsPage implements OnInit {
     modal.onDidDismiss().then((modelData) => {
       if (modelData !== null) {
         this.modelData = modelData.data;
-        console.log('Modal Data : ' + modelData.data);
+        // console.log('Modal Data : ' + modelData.data);
       }
     });
     return await modal.present();
