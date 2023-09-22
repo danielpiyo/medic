@@ -111,7 +111,7 @@ export interface BasicOnboardPayload {
   nationalId: number;
   dob: Date;
   gender: string;
-  speciality_id: number;
+  speciality_id: string;
   name: string;
   email: string;
   password: string;

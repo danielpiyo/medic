@@ -43,7 +43,7 @@
           <ion-select label-placement="floating" fill="outline" formControlName="speciality_id"
             label="Select speciality">
             <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
-              [value]="speciality.id">
+              [value]="speciality.name">
               {{speciality.name}}
             </ion-select-option>
           </ion-select>
