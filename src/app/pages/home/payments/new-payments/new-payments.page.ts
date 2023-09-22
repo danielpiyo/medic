@@ -19,6 +19,8 @@ export class NewPaymentsPage implements OnInit {
   dataPastPaymentSubcription!: Subscription;
   userToken!: UserToken;
   modelData: any;
+  loading: any;
+  balance!: number;
 
   constructor(
     private _appointmentService: AppointmentsService,
@@ -27,38 +29,44 @@ export class NewPaymentsPage implements OnInit {
     this.userToken = {
       token: JSON.parse(localStorage.getItem('currentToken') || '{}') as string,
     };
-    this.pastPayments();
   }
 
   async ngOnInit() {
-    const loading = await this.showLoading();
-    setTimeout(() => {
+    this.loading = await this.showLoading();
+    // Initial fetch of open and closed appointments
+    this.pastPayments();
+    this.getNurseBalance();
+    // Periodically fetch open and closed appointments every 6 seconds
+    setInterval(() => {
       this.pastPayments();
-      this.dismissLoading(loading);
-    }, 4000);
+      this.getNurseBalance();
+    }, 6000); // 6000 milliseconds = 6 seconds
+  }
+
+  getNurseBalance() {
+    this._appointmentService
+      .getNurseBalance(this.userToken)
+      .subscribe((res: any) => {
+        this.balance = res.balance;
+        console.log('Balancet', this.balance);
+      });
   }
 
   async pastPayments() {
-    const loading = await this.showLoading();
     this.pasPaymentLists = this._appointmentService.getClosedAppointments(
       this.userToken
     );
-    this.dataPastPaymentSubcription = this.pasPaymentLists
-      .pipe(
-        take(1),
-        timeout(10000) // Set a timeout of 10 seconds (adjust as needed)
-      )
-      .subscribe(
-        (appointment: any) => {
-          this.dismissLoading(loading);
-          this.originalPastPayment = appointment; // Initialize the original list
-          this.filteredPastPayment = appointment; // Initialize the filtered list
-        },
-        (error) => {
-          this.dismissLoading(loading);
-          console.log(error.error.message);
-        }
-      );
+    this.dataPastPaymentSubcription = this.pasPaymentLists.subscribe(
+      (appointment: any) => {
+        this.dismissLoading(this.loading);
+        this.originalPastPayment = appointment; // Initialize the original list
+        this.filteredPastPayment = appointment; // Initialize the filtered list
+      },
+      (error) => {
+        this.dismissLoading(this.loading);
+        console.log(error.error.message);
+      }
+    );
     // this.dataOpenSubcription = this.openAppointmentLists.subscribe
   }
 

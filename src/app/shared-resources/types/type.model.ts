@@ -229,3 +229,16 @@ export interface AvailabilityPayload {
   lat: number;
   lng: number;
 }
+
+export interface Prescription {
+  token: string;
+  appointment_id: number;
+  patient: string;
+  patient_id: number;
+  doctor: string;
+  doctor_notes: string;
+  patient_description: string;
+  service: string;
+  service_id: number;
+  suggestion: string[];
+}

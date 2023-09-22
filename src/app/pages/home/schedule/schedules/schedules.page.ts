@@ -21,6 +21,7 @@ export class SchedulesPage implements OnInit, OnDestroy {
   targetDate!: Date;
   timeRemaining: string = '';
   appropriateTimeRemaining: any;
+  loading: any;
   dataOpenSubcription!: Subscription;
 
   constructor(
@@ -31,48 +32,41 @@ export class SchedulesPage implements OnInit, OnDestroy {
     this.userToken = {
       token: JSON.parse(localStorage.getItem('currentToken') || '{}') as string,
     };
-    this.getOpenApponments();
+    this.getOpenAppointments();
     this.calculateTimeRemaining();
   }
 
   async ngOnInit() {
-    const loading = await this.showLoading();
-    setTimeout(() => {
-      this.getOpenApponments();
-      this.dismissLoading(loading);
-    }, 4000);
+    this.loading = await this.showLoading();
+    // Initial fetch of open and closed appointments
+    this.getOpenAppointments();
+    // Periodically fetch open and closed appointments every 6 seconds
+    setInterval(() => {
+      this.getOpenAppointments();
+    }, 6000); // 6000 milliseconds = 6 seconds
     setInterval(() => {
       this.calculateTimeRemaining();
     }, 1000);
   }
 
-  async getOpenApponments() {
-    const loading = await this.showLoading();
+  async getOpenAppointments() {
     this.openAppointmentLists = this._appointmentService.getOpenAppointments(
       this.userToken
     );
-    this.dataOpenSubcription = this.openAppointmentLists
-      .pipe(
-        take(1),
-        timeout(10000) // Set a timeout of 10 seconds (adjust as needed)
-      )
-      .subscribe(
-        (appointment: any) => {
-          this.dismissLoading(loading);
-          this.originalOpenAppointment = appointment; // Initialize the original list
-          this.filteredOpenAppointment = appointment; // Initialize the filtered list
-          // console.log('Open Appointment', this.filteredOpenAppointment);
-          this.filteredOpenAppointment.forEach((x) => {
-            this.targetDate = new Date(x.bookTime);
-          });
-          // this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
-        },
-        (error) => {
-          this.dismissLoading(loading);
-          console.log(error.error.message);
-        }
-      );
-    // this.dataOpenSubcription = this.openAppointmentLists.subscribe
+    this.openAppointmentLists.subscribe(
+      (appointment: any) => {
+        this.dismissLoading(this.loading);
+        this.originalOpenAppointment = appointment;
+        this.filteredOpenAppointment = appointment;
+        this.filteredOpenAppointment.forEach((x) => {
+          this.targetDate = new Date(x.bookTime);
+        });
+      },
+      (error) => {
+        this.dismissLoading(this.loading);
+        console.log(error.error.message);
+      }
+    );
   }
 
   calculateTimeRemaining() {

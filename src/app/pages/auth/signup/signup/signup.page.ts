@@ -41,12 +41,12 @@ export class SignupPage implements OnInit, OnDestroy {
   }
 
   async signUp() {
+    const loading = await this.showLoading();
     if (this.signUpForm.valid) {
       const signUpPayload: SignupPayload = {
         email: this.signUpForm.value.email,
       };
       try {
-        const loading = await this.showLoading();
         this.dataSubscription = this._signUpService
           .signUp(signUpPayload)
           .subscribe(

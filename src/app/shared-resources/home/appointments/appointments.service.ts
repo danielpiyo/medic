@@ -28,4 +28,12 @@ export class AppointmentsService {
       tokenPayload
     );
   }
+
+  // getBalance
+  getNurseBalance(tokenPayload: UserToken) {
+    return this._http.post(
+      `${environment.baseURL}/doctor/balance`,
+      tokenPayload
+    );
+  }
 }

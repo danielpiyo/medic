@@ -58,6 +58,7 @@ export class LoginPage implements OnInit {
   }
 
   async login() {
+    const loading = await this.showLoading(); // Display loading spinner
     this.formSubmited = true;
     const loginFormData = this.loginForm.value;
     const loginPayload: LoginPayload = {
@@ -65,7 +66,6 @@ export class LoginPage implements OnInit {
       password: loginFormData.password,
     };
     try {
-      const loading = await this.showLoading(); // Display loading spinner
       this.dataSubscription = this.loginService.logIn(loginPayload).subscribe(
         (response: any) => {
           this.dismissLoading(loading);

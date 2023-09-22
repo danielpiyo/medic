@@ -11,6 +11,8 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
 import { LoginService } from '../auth/login/login.service';
+import { Prescription } from '../types/type.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +27,13 @@ export class PrescriptionimageService {
     private http: HttpClient,
     private authService: LoginService
   ) {}
+
+  postPrescription(prescription: Prescription) {
+    return this.http.post(
+      `${environment.baseURL}/doctor/prescribe`,
+      prescription
+    );
+  }
 
   public async loadSaved() {
     const user = this.authService.getCurrentUser(); // Get the current authenticated user
@@ -54,49 +63,6 @@ export class PrescriptionimageService {
         // Web platform only: Load the photo as base64 data
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
-    }
-  }
-
-  public async addNewToGallery1() {
-    // Take a photo
-    const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri, // file-based data; provides best performance
-      source: CameraSource.Camera, // automatically take a new photo with the camera
-      quality: 100, // highest quality (0 to 100)
-    });
-
-    const savedImageFile = await this.savePicture(capturedPhoto);
-    console.log('SavedImageFile', savedImageFile);
-
-    // Add new photo to Photos array
-    this.prescriptionPhotos.unshift(savedImageFile);
-    // Cache all photo data for future retrieval
-    Preferences.set({
-      key: this.PRESCRIPTION_PHOTO_STORAGE,
-      value: JSON.stringify(this.prescriptionPhotos),
-    });
-    return capturedPhoto;
-  }
-
-  public async loadSaved1() {
-    const user = this.authService.getCurrentUser(); // Get the current authenticated user
-    if (!user) {
-      return; // Handle unauthenticated users as needed
-    }
-
-    // Retrieve cached photo array data specific to the user
-    const photoList = await Preferences.get({
-      key: this.PRESCRIPTION_PHOTO_STORAGE_PREFIX + user.id,
-    });
-
-    if (photoList && photoList.value !== null) {
-      // Parse the user's photo data
-      const userPhotos: UserPhoto[] = JSON.parse(photoList.value);
-      // Now, you have the photos specific to the user
-      // Update this.prescriptionPhotos or handle them as needed
-    } else {
-      // No photos found for the user
-      // Handle accordingly
     }
   }
 
@@ -180,7 +146,7 @@ export class PrescriptionimageService {
   }
 
   // Read camera photo into base64 format based on the platform the app is running on
-  private async readAsBase64(photo: Photo) {
+  private async readAsBase64(photo: any) {
     // "hybrid" will detect Cordova or Capacitor
     if (this.platform.is('hybrid')) {
       // Read the file into base64 format

@@ -24,6 +24,8 @@
           <h3><strong>{{ data.patient }}</strong></h3>
           <h3>Contact: {{ data.contact }}</h3>
           <h3>Chronic Disease: {{ data.hasChronic }}</h3>
+          <br>
+          <hr>
           <ion-button (click)="showMap()" color="secondary">Show Map
             <ion-icon name="locate-outline"></ion-icon>
           </ion-button>
@@ -37,7 +39,8 @@
       <br>
       <!-- Medical specialist  -->
       <div class="patient-details details-textarea">
-        <ion-textarea label-placement="floating" fill="outline" label="Prescription:" rows="4"></ion-textarea>
+        <ion-textarea label-placement="floating" fill="outline" label="Prescription:" rows="6"
+          [(ngModel)]="doctor_description" placeholder="Doctor's note"></ion-textarea>
       </div>
 
 
@@ -47,9 +50,10 @@
         <ion-col size="5" class="patient-details">
           <h2><u>Suggestion</u></h2>
           <ion-card class="details-textarea">
-            <ion-checkbox labelPlacement="end" class="remeber-me">Evacuation</ion-checkbox>
-            <ion-checkbox labelPlacement="end" class="remeber-me">Home Visit</ion-checkbox>
-            <ion-checkbox labelPlacement="end" class="remeber-me">Conciage</ion-checkbox>
+            <ion-checkbox labelPlacement="end" [(ngModel)]="selectAll" (ionChange)="selectAllChanged()">Select
+              All</ion-checkbox>
+            <ion-checkbox *ngFor="let option of options" labelPlacement="end" [(ngModel)]="option.selected">{{
+              option.label }}</ion-checkbox>
           </ion-card>
         </ion-col>
         <ion-col size="1"></ion-col>
@@ -79,7 +83,8 @@
       </div>
     </ion-card-content>
 
-    <ion-button shape="round" fill="outline" expand="block" color="success">Update </ion-button>
+    <ion-button shape="round" fill="outline" expand="block" color="success" (click)="updatePatient()">Update
+    </ion-button>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="closeModal()" color="danger">

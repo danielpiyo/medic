@@ -24,7 +24,7 @@ export class AppointmentsPage implements OnInit {
   dataClosedSubcription!: Subscription;
   userToken!: UserToken;
   modelData: any;
-
+  loading: any;
   targetDate!: Date;
   timeRemaining: string = '';
   appropriateTimeRemaining: any;
@@ -37,70 +37,55 @@ export class AppointmentsPage implements OnInit {
     this.userToken = {
       token: JSON.parse(localStorage.getItem('currentToken') || '{}') as string,
     };
-    this.getOpenApponments();
+    this.getOpenAppointments();
     this.getClosedAppointments();
     this.calculateTimeRemaining();
   }
 
   async ngOnInit() {
-    const loading = await this.showLoading();
-    setTimeout(() => {
-      this.getClosedAppointments();
-      this.getOpenApponments();
-      this.dismissLoading(loading);
-    }, 4000);
+    this.loading = await this.showLoading();
+    // Initial fetch of open and closed appointments
+    this.getOpenAppointments();
+    this.getClosedAppointments();
+    // Periodically fetch open and closed appointments every 6 seconds
     setInterval(() => {
-      this.calculateTimeRemaining();
-    }, 1000);
+      this.getOpenAppointments();
+      this.getClosedAppointments();
+    }, 6000); // 6000 milliseconds = 6 seconds
   }
 
-  async getOpenApponments() {
-    const loading = await this.showLoading();
+  async getOpenAppointments() {
     this.openAppointmentLists = this._appointmentService.getOpenAppointments(
       this.userToken
     );
-    this.dataOpenSubcription = this.openAppointmentLists
-      .pipe(
-        take(1),
-        timeout(10000) // Set a timeout of 10 seconds (adjust as needed)
-      )
-      .subscribe(
-        (appointment: any) => {
-          this.dismissLoading(loading);
-          this.originalOpenAppointment = appointment; // Initialize the original list
-          this.filteredOpenAppointment = appointment; // Initialize the filtered list
-          // console.log('Open Appointment', this.filteredOpenAppointment);
-          this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
-        },
-        (error) => {
-          this.dismissLoading(loading);
-          console.log(error.error.message);
-        }
-      );
-    // this.dataOpenSubcription = this.openAppointmentLists.subscribe
+    this.openAppointmentLists.subscribe(
+      (appointment: any) => {
+        this.dismissLoading(this.loading);
+        this.originalOpenAppointment = appointment;
+        this.filteredOpenAppointment = appointment;
+        this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
+      },
+      (error) => {
+        this.dismissLoading(this.loading);
+        console.log(error.error.message);
+      }
+    );
   }
 
   async getClosedAppointments() {
-    const loading = await this.showLoading();
     this.closedAppointmentLists =
       this._appointmentService.getClosedAppointments(this.userToken);
-    this.dataClosedSubcription = this.closedAppointmentLists
-      .pipe(
-        take(1),
-        timeout(10000) // Set a timeout of 10 seconds (adjust as needed)
-      )
-      .subscribe(
-        (appointment: any) => {
-          this.dismissLoading(loading);
-          this.originalClosedAppointment = appointment; // Initialize the original list
-          this.filteredClosedAppointment = appointment; // Initialize the filtered list
-        },
-        (error) => {
-          this.dismissLoading(loading);
-          console.log(error.error.message);
-        }
-      );
-    // this.dataOpenSubcription = this.openAppointmentLists.subscribe
+    this.closedAppointmentLists.subscribe(
+      (appointment: any) => {
+        this.dismissLoading(this.loading);
+        this.originalClosedAppointment = appointment;
+        this.filteredClosedAppointment = appointment;
+      },
+      (error) => {
+        this.dismissLoading(this.loading);
+        console.log(error.error.message);
+      }
+    );
   }
 
   // async getClosedAppointments() {
