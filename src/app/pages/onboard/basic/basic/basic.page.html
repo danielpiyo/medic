@@ -39,14 +39,30 @@
             <ion-select-option value="Male">Male</ion-select-option>
             <ion-select-option value="Female">Female</ion-select-option>
           </ion-select>
-          <!-- Speciality -->
-          <ion-select label-placement="floating" fill="outline" formControlName="speciality_id"
-            label="Select speciality">
-            <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
-              [value]="speciality.name">
-              {{speciality.name}}
-            </ion-select-option>
+
+          <!-- doctor type (Nurse/Clinician) -->
+          <ion-select label-placement="floating" fill="outline" formControlName="dr_type" label="Profession"
+            [(ngModel)]="selectedProfession">
+            <ion-select-option value="Nurse">Nurse</ion-select-option>
+            <ion-select-option value="Clinical Officer">Clinical Officer</ion-select-option>
           </ion-select>
+
+          <div *ngIf="selectedProfession === 'Nurse'">
+            <!-- Speciality -->
+            <ion-select label-placement="floating" fill="outline" formControlName="speciality_id"
+              label="Select speciality">
+              <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
+                [value]="speciality.name">
+                {{speciality.name}}
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+          <div *ngIf="selectedProfession === 'Clinical Officer'">
+            <!-- Speciality -->
+            <ion-label>Speciality Not Available</ion-label>
+          </div>
+
           <!-- Address -->
           <ion-input label="Address" label-placement="floating" fill="outline" formControlName="address"></ion-input>
 

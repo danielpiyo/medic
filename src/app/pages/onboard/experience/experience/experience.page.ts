@@ -117,17 +117,17 @@ export class ExperiencePage implements OnInit, OnDestroy {
         'Your profile will go through a review and you will be notified soon.',
       buttons: ['OK'],
     });
-
     await alert.present();
   }
 
   async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `${error.message}`,
+      message: errorMessage,
       buttons: ['OK'],
     });
-
     await alert.present();
   }
 

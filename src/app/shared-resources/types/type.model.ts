@@ -112,6 +112,7 @@ export interface BasicOnboardPayload {
   dob: Date;
   gender: string;
   speciality_id: string;
+  dr_type: string;
   name: string;
   email: string;
   password: string;

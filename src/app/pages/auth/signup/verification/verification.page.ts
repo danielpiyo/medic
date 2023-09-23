@@ -92,9 +92,11 @@ export class VerificationPage implements OnInit, OnDestroy {
   }
 
   async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `Error: ${error.message}`,
+      message: errorMessage,
       buttons: ['OK'],
     });
 

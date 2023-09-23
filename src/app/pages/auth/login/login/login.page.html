@@ -31,8 +31,16 @@
           <!-- <div *ngIf="formSubmited && loghasError('email', 'required' )" style="color: red;">Email is Required</div> -->
           <!-- <div *ngIf="formSubmited && loghasError('email', 'pattern')" style="color: red;">Please use a correct Email </div> -->
           <br> <br>
-          <ion-item>
+          <!-- <ion-item>
             <ion-input formControlName="password" label="Pasword" type="password"></ion-input> <br>
+          </ion-item> -->
+
+          <ion-item>
+            <ion-input label="Pasword" [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"></ion-input>
+            <ion-button slot="end" fill="clear" (click)="togglePasswordVisibility()">
+              <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+            </ion-button>
           </ion-item>
           <!-- <div *ngIf="formSubmited && loghasError('password', 'required')" style="color: red;">Password is Required </div> -->
 

@@ -28,6 +28,7 @@ export class LoginPage implements OnInit {
   formSubmited: boolean = false;
   signupModal!: HTMLIonModalElement;
   dataSubscription!: Subscription;
+  showPassword: boolean = false; // The variable
   constructor(
     private formBuilder: FormBuilder,
     private _router: Router,
@@ -141,9 +142,11 @@ export class LoginPage implements OnInit {
   }
 
   async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `${error.message}`,
+      message: errorMessage,
       buttons: ['OK'],
     });
 
@@ -158,6 +161,11 @@ export class LoginPage implements OnInit {
     } else {
       this._router.navigate(['/signup']);
     }
+  }
+
+  // show password
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   ngOnDestroy() {

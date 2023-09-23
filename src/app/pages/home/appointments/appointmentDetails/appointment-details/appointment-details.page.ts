@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
@@ -13,19 +13,21 @@ import {
 } from 'src/app/shared-resources/types/type.model';
 import { Router } from '@angular/router';
 import { PrescriptionimageService } from 'src/app/shared-resources/prescription/prescriptionimage.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-appointment-details',
   templateUrl: './appointment-details.page.html',
   styleUrls: ['./appointment-details.page.scss'],
 })
-export class AppointmentDetailsPage implements OnInit {
+export class AppointmentDetailsPage implements OnInit, OnDestroy {
   @Input() data!: MyAppointmentDetails;
   modelData: any;
   prescriptionPhotos: any;
   suggestion: boolean = false;
   showmap: boolean = false;
   currentToken!: string;
+  dataSubscription!: Subscription;
 
   // prescription
   suggestionValues: string[] = [];
@@ -58,7 +60,6 @@ export class AppointmentDetailsPage implements OnInit {
 
   async closeModal() {
     const openModal = await this.modalController.getTop(); // Get the top-most open modal
-
     if (openModal) {
       this.modalController.dismiss();
     } else {
@@ -101,18 +102,20 @@ export class AppointmentDetailsPage implements OnInit {
     };
     console.log('data', prescriptioPayload);
 
-    this.prescritioService.postPrescription(prescriptioPayload).subscribe(
-      (res) => {
-        this.dismissLoading(loading);
-        this.presentSuccessAlert();
-        this.closeModal();
-      },
-      (error) => {
-        this.dismissLoading(loading);
-        console.log(error.error.message);
-        this.presentErrorAlert(error.error);
-      }
-    );
+    this.dataSubscription = this.prescritioService
+      .postPrescription(prescriptioPayload)
+      .subscribe(
+        (res) => {
+          this.dismissLoading(loading);
+          this.presentSuccessAlert();
+          this.closeModal();
+        },
+        (error) => {
+          this.dismissLoading(loading);
+          console.log(error.error.message);
+          this.presentErrorAlert(error.error);
+        }
+      );
   }
 
   async showLoading() {
@@ -142,13 +145,21 @@ export class AppointmentDetailsPage implements OnInit {
     await alert.present();
   }
 
-  async presentErrorAlert(error: any) {
+  async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `Error: ${error.message}`,
+      message: errorMessage,
       buttons: ['OK'],
     });
 
     await alert.present();
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
   }
 }
