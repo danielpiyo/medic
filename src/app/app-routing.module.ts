@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'schedules',
     loadChildren: () => import('./pages/home/schedule/schedules/schedules.module').then( m => m.SchedulesPageModule)
   },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/auth/forgotpassword/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
 ];
 @NgModule({
   imports: [

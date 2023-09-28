@@ -168,6 +168,10 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
+  goToForgot() {
+    this._router.navigate(['/forgot']);
+  }
+
   ngOnDestroy() {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();

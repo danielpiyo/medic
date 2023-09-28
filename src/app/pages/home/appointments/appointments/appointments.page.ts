@@ -39,7 +39,6 @@ export class AppointmentsPage implements OnInit {
     };
     this.getOpenAppointments();
     this.getClosedAppointments();
-    this.calculateTimeRemaining();
   }
 
   async ngOnInit() {
@@ -64,6 +63,8 @@ export class AppointmentsPage implements OnInit {
         this.originalOpenAppointment = appointment;
         this.filteredOpenAppointment = appointment;
         this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
+        // console.log('MyTarget', this.targetDate);
+        this.calculateTimeRemaining();
       },
       (error) => {
         this.dismissLoading(this.loading);
@@ -87,23 +88,6 @@ export class AppointmentsPage implements OnInit {
       }
     );
   }
-
-  // async getClosedAppointments() {
-  //   const loading = await this.showLoading();
-  //   this.closedAppointmentLists =
-  //     this._appointmentService.getClosedAppointments(this.userToken);
-  //   this.dataClosedSubcription = this.closedAppointmentLists.subscribe(
-  //     (appointment: any) => {
-  //       this.dismissLoading(loading);
-  //       this.originalClosedAppointment = appointment; // Initialize the original list
-  //       this.filteredClosedAppointment = appointment; // Initialize the filtered list
-  //     },
-  //     (error) => {
-  //       this.dismissLoading(loading);
-  //       console.log(error.error.message);
-  //     }
-  //   );
-  // }
 
   applyClosedFilter(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -145,7 +129,6 @@ export class AppointmentsPage implements OnInit {
       this.timeRemaining = 'Your time is not valid.';
       return;
     }
-
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     const hours = Math.floor(
       (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)

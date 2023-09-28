@@ -28,6 +28,7 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
   showmap: boolean = false;
   currentToken!: string;
   dataSubscription!: Subscription;
+  prescribe: boolean = false;
 
   // prescription
   suggestionValues: string[] = [];
@@ -69,7 +70,9 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
     }
   }
 
-  uploadPrescriptionNow() {}
+  startPrescribe() {
+    this.prescribe = true;
+  }
 
   showMap() {
     this.closeModal();

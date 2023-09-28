@@ -4,7 +4,12 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { LoginPayload, User } from '../../types/type.model';
+import {
+  LoginPayload,
+  ResetCodePayload,
+  ResetPasswordPayload,
+  User,
+} from '../../types/type.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +23,20 @@ export class LoginService {
 
   constructor(private _http: HttpClient, private router: Router) {
     this.userLoggedIn.next(false);
+  }
+  // ResetCodePayload  ResetPasswordPayload
+  generateResetCode(codePayload: ResetCodePayload) {
+    return this._http.post(
+      `${environment.baseURL}/doctor/resetCode`,
+      codePayload
+    );
+  }
+
+  resetPassword(passwordPayload: ResetPasswordPayload) {
+    return this._http.post(
+      `${environment.baseURL}/doctor/resetPassword`,
+      passwordPayload
+    );
   }
 
   setUserLoggedIn(userLoggedIn: boolean) {

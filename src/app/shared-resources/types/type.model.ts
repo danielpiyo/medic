@@ -89,6 +89,16 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface ResetCodePayload {
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  email: string;
+  reg_code: string;
+  password: string;
+}
+
 export interface LoginResponse {
   token: string;
   user: {

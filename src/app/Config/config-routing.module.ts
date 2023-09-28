@@ -78,6 +78,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'forgot',
+    loadChildren: () =>
+      import(
+        '../pages/auth/forgotpassword/forgot-password/forgot-password.module'
+      ).then((m) => m.ForgotPasswordPageModule),
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full',
