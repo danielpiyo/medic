@@ -85,6 +85,13 @@ const routes: Routes = [
       ).then((m) => m.ForgotPasswordPageModule),
   },
   {
+    path: 'terms-conditions',
+    loadChildren: () =>
+      import(
+        '../pages/home/settings/nurse-settings/nurse-settings.module'
+      ).then((m) => m.NurseSettingsPageModule),
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full',

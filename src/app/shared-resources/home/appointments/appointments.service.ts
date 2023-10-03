@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../src/environments/environment';
-import { MyAppointmentDetails, UserToken } from '../../types/type.model';
+import {
+  InitiateAppointmentPayload,
+  MyAppointmentDetails,
+  UserToken,
+  closeAppointmentPayload,
+} from '../../types/type.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -34,6 +39,20 @@ export class AppointmentsService {
     return this._http.post(
       `${environment.baseURL}/doctor/balance`,
       tokenPayload
+    );
+  }
+
+  initiateAttendance(initatiatePayload: InitiateAppointmentPayload) {
+    return this._http.post(
+      `${environment.baseURL}/doctor/attendance`,
+      initatiatePayload
+    );
+  }
+
+  closeAppointment(closeAppointPayload: closeAppointmentPayload) {
+    return this._http.post(
+      `${environment.baseURL}/closeAppointment`,
+      closeAppointPayload
     );
   }
 }

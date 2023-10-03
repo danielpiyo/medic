@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Observable, Subscription, take, timeout } from 'rxjs';
 import { AppointmentsService } from 'src/app/shared-resources/home/appointments/appointments.service';
+import { Plugins } from '@capacitor/core';
+const { LocalNotifications } = Plugins;
 import {
   MyAppointmentDetails,
   UserToken,
@@ -65,6 +67,7 @@ export class AppointmentsPage implements OnInit {
         this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
         // console.log('MyTarget', this.targetDate);
         this.calculateTimeRemaining();
+        this.showAppointmentNotification();
       },
       (error) => {
         this.dismissLoading(this.loading);
@@ -161,10 +164,22 @@ export class AppointmentsPage implements OnInit {
     return await modal.present();
   }
 
+  async showAppointmentNotification() {
+    await LocalNotifications['schedule']({
+      notifications: [
+        {
+          title: 'New Appointment',
+          body: 'You have a new appointment booked.',
+          sound: '../../../../../assets/notification/alert-notify.wav', // Replace with your sound file name
+          id: 1,
+        },
+      ],
+    });
+  }
+
   ngOnDestroy(): void {
-    if (this.dataOpenSubcription) {
+    if (this.dataOpenSubcription || this.dataClosedSubcription) {
       this.dataOpenSubcription.unsubscribe();
-    } else if (this.dataClosedSubcription) {
       this.dataClosedSubcription.unsubscribe();
     }
   }

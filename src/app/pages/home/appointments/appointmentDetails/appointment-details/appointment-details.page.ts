@@ -7,13 +7,16 @@ import {
 } from '@ionic/angular';
 import { MedicalSuggestionPage } from '../suggestion/medical-suggestion/medical-suggestion.page';
 import {
+  InitiateAppointmentPayload,
   MyAppointmentDetails,
   Prescription,
   SuggestionMessage,
+  closeAppointmentPayload,
 } from 'src/app/shared-resources/types/type.model';
 import { Router } from '@angular/router';
 import { PrescriptionimageService } from 'src/app/shared-resources/prescription/prescriptionimage.service';
 import { Subscription } from 'rxjs';
+import { AppointmentsService } from 'src/app/shared-resources/home/appointments/appointments.service';
 
 @Component({
   selector: 'app-appointment-details',
@@ -28,6 +31,7 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
   showmap: boolean = false;
   currentToken!: string;
   dataSubscription!: Subscription;
+  startPreSubscription!: Subscription;
   prescribe: boolean = false;
 
   // prescription
@@ -46,6 +50,7 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
     private actionSheetController: ActionSheetController,
     private modalController: ModalController,
     private prescritioService: PrescriptionimageService,
+    private appointmentService: AppointmentsService,
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertController: AlertController
@@ -70,8 +75,48 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
     }
   }
 
-  startPrescribe() {
-    this.prescribe = true;
+  async startPrescribe() {
+    const loading = await this.showLoading();
+    const payload: InitiateAppointmentPayload = {
+      token: this.currentToken,
+      id: this.data.id,
+      appointment_status: 'Attending',
+    };
+    this.startPreSubscription = this.appointmentService
+      .initiateAttendance(payload)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.presentSucPresAlert();
+          this.dismissLoading(loading);
+          this.prescribe = true;
+        },
+        (error: any) => {
+          this.dismissLoading(loading);
+          this.presentErrorAlert(error.error);
+          console.log(error);
+        }
+      );
+  }
+
+  async closeAppointment() {
+    const loading = await this.showLoading();
+    const payload: closeAppointmentPayload = {
+      token: this.currentToken,
+      id: this.data.id,
+    };
+    this.startPreSubscription = this.appointmentService
+      .closeAppointment(payload)
+      .subscribe(
+        (res) => {
+          console.log(res);
+        },
+        (error: any) => {
+          this.dismissLoading(loading);
+          this.presentErrorAlert(error.error);
+          console.log(error);
+        }
+      );
   }
 
   showMap() {
@@ -109,6 +154,7 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
       .postPrescription(prescriptioPayload)
       .subscribe(
         (res) => {
+          this.closeAppointment();
           this.dismissLoading(loading);
           this.presentSuccessAlert();
           this.closeModal();
@@ -148,6 +194,16 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  async presentSucPresAlert() {
+    const alert = await this.alertController.create({
+      header: 'Success',
+      message: 'Attendance Started!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
   async presentErrorAlert(error: Error) {
     const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
 
@@ -161,8 +217,9 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.dataSubscription) {
+    if (this.dataSubscription || this.startPreSubscription) {
       this.dataSubscription.unsubscribe();
+      this.startPreSubscription.unsubscribe();
     }
   }
 }

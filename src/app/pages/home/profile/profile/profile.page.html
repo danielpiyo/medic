@@ -42,14 +42,23 @@
         <ion-item> Contact No: {{ currentUser.mobile }} </ion-item>
         <ion-item> Location: {{ currentUser.address }} </ion-item>
       </ion-list>
+      <!-- Availability -->
+      <div class="active-inactive">
+        <hr>
+        <div class="holder"> <ion-label>My Availability: {{ toggleState ? 'Online' : 'Offline' }}</ion-label>
+          <ion-toggle slot="end" [(ngModel)]="toggleState" (ionChange)="toggleChanged()"></ion-toggle>
+        </div>
+      </div>
+
+      <!-- share -->
+      <div class="action-button">
+        <ion-button (click)="editProfile()" shape="round" color="success">
+          <ion-icon name="share"></ion-icon>
+          Invite Friends
+        </ion-button>
+      </div>
     </div>
-    <div class="action-button">
-      <ion-button (click)="editProfile()" shape="round" color="success">
-        <ion-icon name="share"></ion-icon>
-        Invite Friends
-      </ion-button>
-    </div>
-    <!-- <ion-button (click)="logOut()">LogOut</ion-button> -->
+
   </ion-content>
 
 </div>

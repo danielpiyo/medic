@@ -31,6 +31,11 @@
         <br>
 
         <br>
+        <!-- Checkbox for accepting terms and conditions -->
+        <ion-item>
+          <ion-checkbox formControlName="acceptTerms"></ion-checkbox>
+          <ion-label> I accept the <a (click)="openTermsModal()">Terms and Conditions</a></ion-label>
+        </ion-item>
 
 
         <ion-button shape="round" color="success" type="submit" [disabled]="signUpForm.invalid"

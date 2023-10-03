@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="header-bck">
+      <br>
+    </div>
+    <ion-title>Terms and Conditions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Introduction</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Your terms and conditions content goes here -->
+      <p>Welcome to Mclinic.</p>
+      <!-- Add your terms and conditions text here -->
+      <p>By using this app, you agree to the following terms and conditions:</p>
+      <!-- Continue adding your terms and conditions content -->
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Repeat the above structure for different sections of your terms and conditions -->
+
+  <!-- Example: Privacy Policy -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Privacy Policy</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Your privacy policy content goes here -->
+      <p>We respect your privacy and are committed to protecting your personal information.</p>
+      <!-- Add your privacy policy text here -->
+      <p>For more details, please refer to our <a (click)="openPrivacyPolicy()">Privacy Policy</a>.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="closeModal()" color="danger">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -241,6 +241,13 @@ export interface AvailabilityPayload {
   lng: number;
 }
 
+export interface CheckAvailabilityPayload {
+  token: string;
+}
+export interface CheckAvailabilityResponse {
+  status: boolean;
+}
+
 export interface Prescription {
   token: string;
   appointment_id: number;
@@ -252,4 +259,17 @@ export interface Prescription {
   service: string;
   service_id: number;
   suggestion: string[];
+}
+
+export interface InitiateAppointmentPayload {
+  token: string;
+  id: number;
+  appointment_status: string;
+  // rate: number;
+  // appointment_status: string;
+}
+
+export interface closeAppointmentPayload {
+  token: string;
+  id: number;
 }
