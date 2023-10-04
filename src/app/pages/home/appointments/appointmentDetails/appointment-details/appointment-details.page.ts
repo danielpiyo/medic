@@ -100,7 +100,7 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
   }
 
   async closeAppointment() {
-    const loading = await this.showLoading();
+    // const loading = await this.showLoading();
     const payload: closeAppointmentPayload = {
       token: this.currentToken,
       id: this.data.id,
@@ -109,10 +109,11 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
       .closeAppointment(payload)
       .subscribe(
         (res) => {
+          // this.dismissLoading(loading);
           console.log(res);
         },
         (error: any) => {
-          this.dismissLoading(loading);
+          // this.dismissLoading(loading);
           this.presentErrorAlert(error.error);
           console.log(error);
         }

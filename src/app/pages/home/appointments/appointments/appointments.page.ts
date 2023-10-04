@@ -67,7 +67,9 @@ export class AppointmentsPage implements OnInit {
         this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
         // console.log('MyTarget', this.targetDate);
         this.calculateTimeRemaining();
-        this.showAppointmentNotification();
+        if (this.filteredOpenAppointment.length > 0) {
+          this.showAppointmentNotification();
+        }
       },
       (error) => {
         this.dismissLoading(this.loading);

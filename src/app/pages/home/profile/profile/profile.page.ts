@@ -41,9 +41,10 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
+    console.log('User', this.currentUser);
     setInterval(() => {
       this.checkAvailability();
-    }, 20000); // 6000 milliseconds = 6 seconds
+    }, 10000); // 6000 milliseconds = 6 seconds
   }
 
   // get Location
@@ -95,7 +96,7 @@ export class ProfilePage implements OnInit {
 
   async presentLocationToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Enable your Location First',
+      message: 'Check Your Network or Location if enabled',
       duration: 3500,
       position: position,
     });

@@ -48,7 +48,7 @@ export class DashboardPage implements OnInit {
 
   async presentLocationToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Enable your Location First',
+      message: 'Check Your Network or Location if enabled',
       duration: 3500,
       position: position,
     });

@@ -44,7 +44,7 @@ export class AppointmentsService {
 
   initiateAttendance(initatiatePayload: InitiateAppointmentPayload) {
     return this._http.post(
-      `${environment.baseURL}/doctor/attendance`,
+      `${environment.baseURL}/doctorUpdateProgress`,
       initatiatePayload
     );
   }

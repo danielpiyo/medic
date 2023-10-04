@@ -1,27 +1,5 @@
 <div>
   <div>
-    <!-- <div class="appointment-div">
-      <h2>Upcomming Appointments</h2>
-    </div> -->
-    <!-- <ion-card>
-      <ion-row>
-        <ion-col size="5">
-          <ion-avatar>
-            <ion-img src="../../../../assets/images/clinician.png"></ion-img>
-          </ion-avatar>
-          <div class="app-time">
-            <h5>Time: 10.00am - 6.00pm</h5>
-          </div>
-        </ion-col>
-        <ion-col size="1"></ion-col>
-        <ion-col size="6">
-          I want to be diagnosed. I am feeling alot of mooving things
-          <ion-chip color="success">View Details</ion-chip>
-        </ion-col>
-      </ion-row>
-
-    </ion-card> -->
-
     <ion-card class="ion-no-margin hm-01">
       <div *ngFor="let oappointment of filteredOpenAppointment; let i = index">
         <div class="appointment-div">
@@ -70,10 +48,10 @@
   <div>
     <ion-card class="ion-no-margin hm-01">
       <!-- Closed Appointments -->
+      <div class="past-appointment-div">
+        <h2>Past Appointments</h2>
+      </div>
       <div *ngFor="let cappointment of filteredClosedAppointment; let i = index">
-        <div class="past-appointment-div">
-          <h2>Past Appointments</h2>
-        </div>
         <ion-card>
           <ion-card-content>
             <ion-row>
