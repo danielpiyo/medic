@@ -30,6 +30,7 @@ export class AppointmentsPage implements OnInit {
   targetDate!: Date;
   timeRemaining: string = '';
   appropriateTimeRemaining: any;
+  private notificationShown: boolean = false;
 
   constructor(
     private _appointmentService: AppointmentsService,
@@ -67,8 +68,12 @@ export class AppointmentsPage implements OnInit {
         this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
         // console.log('MyTarget', this.targetDate);
         this.calculateTimeRemaining();
-        if (this.filteredOpenAppointment.length > 0) {
+        if (
+          !this.notificationShown &&
+          this.filteredOpenAppointment.length > 0
+        ) {
           this.showAppointmentNotification();
+          this.notificationShown = true; // Set the flag to true
         }
       },
       (error) => {
@@ -172,7 +177,7 @@ export class AppointmentsPage implements OnInit {
         {
           title: 'New Appointment',
           body: 'You have a new appointment booked.',
-          sound: '../../../../../assets/notification/alert-notify.wav', // Replace with your sound file name
+          sound: '../../../../../assets/notification/alert.mp3', // Replace with your sound file name
           id: 1,
         },
       ],
