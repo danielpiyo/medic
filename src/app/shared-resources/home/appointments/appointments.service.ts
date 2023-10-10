@@ -6,6 +6,7 @@ import {
   MyAppointmentDetails,
   UserToken,
   closeAppointmentPayload,
+  withdrawaPayload,
 } from '../../types/type.model';
 import { Observable } from 'rxjs';
 
@@ -53,6 +54,20 @@ export class AppointmentsService {
     return this._http.post(
       `${environment.baseURL}/closeAppointment`,
       closeAppointPayload
+    );
+  }
+
+  requestWithrawal(requestPayload: withdrawaPayload) {
+    return this._http.post(
+      `${environment.baseURL}/requestWithrawal`,
+      requestPayload
+    );
+  }
+
+  getMyWithrawal(requestPayload: UserToken) {
+    return this._http.post(
+      `${environment.baseURL}/myWithrawals`,
+      requestPayload
     );
   }
 }

@@ -273,3 +273,29 @@ export interface closeAppointmentPayload {
   token: string;
   id: number;
 }
+
+export interface withdrawaPayload {
+  token: string;
+  withdrawalStatus: string;
+  withdrawalAmount: number;
+  phoneNumber: string;
+  balance: number;
+  amountToRecieve: number;
+  transactionCost: number;
+  passibleArrivalTime: string;
+}
+
+export interface MyPastWithdrawal {
+  id: number;
+  doctor_id: number;
+  w_amount: number;
+  w_phone: string;
+  w_balance: number;
+  amt_to_recieve: number;
+  w_status: string;
+  w_cost: number;
+  w_possible_Atime: string;
+  created_at: Date;
+  updated_at: Date;
+  updated_by: number;
+}

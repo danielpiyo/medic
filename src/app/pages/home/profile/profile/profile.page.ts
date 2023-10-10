@@ -10,6 +10,7 @@ import {
 } from 'src/app/shared-resources/types/type.model';
 import { Geolocation } from '@capacitor/geolocation';
 import { AppointmentService } from 'src/app/shared-resources/appointments/appointment.service';
+import { Subject, Subscription, interval, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,8 @@ export class ProfilePage implements OnInit {
   availability: any;
   coordinates: any;
   currentToken!: string;
+  private destroy$: Subject<void> = new Subject<void>();
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private _logOutServive: LoginService,
@@ -42,9 +45,7 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     console.log('User', this.currentUser);
-    setInterval(() => {
-      this.checkAvailability();
-    }, 10000); // 6000 milliseconds = 6 seconds
+    this.setupAvailabilityPolling();
   }
 
   // get Location
@@ -73,6 +74,18 @@ export class ProfilePage implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  setupAvailabilityPolling() {
+    // Use takeUntil to automatically unsubscribe when the component is destroyed
+    const pollSubscription = interval(30000) // 10000 milliseconds = 10 seconds
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.checkAvailability();
+      });
+
+    // Store the pollSubscription in the array
+    this.subscriptions.push(pollSubscription);
   }
 
   toggleChanged() {
@@ -109,5 +122,13 @@ export class ProfilePage implements OnInit {
     this._router.navigate(['/login']);
   }
 
-  editProfile() {}
+  editProfile() {
+    this._router.navigate(['/home/payments']);
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions when the component is destroyed
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
