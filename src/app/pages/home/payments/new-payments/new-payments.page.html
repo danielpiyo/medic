@@ -94,13 +94,13 @@
       </ion-card>
       <ion-item>
         <ion-label>Current Balance:</ion-label>
-        <ion-label>Ksh.{{ currentBalance | currency }}</ion-label>
+        <ion-label>Ksh.{{ currentBalance }}</ion-label>
       </ion-item>
 
       <!-- New Balance (calculated in the template) -->
       <ion-item *ngIf="withdrawalAmount <= currentBalance">
         <ion-label>New Balance:</ion-label>
-        <ion-label>Ksh. {{ (currentBalance - withdrawalAmount ) | currency }}</ion-label>
+        <ion-label>Ksh. {{ (currentBalance - withdrawalAmount )}}</ion-label>
       </ion-item>
 
       <div *ngIf="!showWithdrawSection && !showDetailsSection">

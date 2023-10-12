@@ -1,10 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AlertController,
   LoadingController,
   ModalController,
 } from '@ionic/angular';
-import { Observable, Subscription, take, timeout } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  take,
+  takeUntil,
+  timeout,
+} from 'rxjs';
 import { AppointmentsService } from 'src/app/shared-resources/home/appointments/appointments.service';
 import {
   MyAppointmentDetails,
@@ -18,7 +26,7 @@ import {
   templateUrl: './new-payments.page.html',
   styleUrls: ['./new-payments.page.scss'],
 })
-export class NewPaymentsPage implements OnInit {
+export class NewPaymentsPage implements OnInit, OnDestroy {
   pasPaymentLists!: Observable<MyAppointmentDetails[]>;
   originalPastPayment: MyAppointmentDetails[] = [];
   myPastWithdrawals: MyPastWithdrawal[] = [];
@@ -37,11 +45,17 @@ export class NewPaymentsPage implements OnInit {
   hideTherest: boolean = false;
   showWithdrawSection: boolean = false;
   dataAvailable: boolean = false;
+  intervalId: any;
+  dataOpenSubcription!: Subscription; //
+  withdrawlSubscription!: Subscription;
+  currentErrorAlert: HTMLIonAlertElement | null = null;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private _appointmentService: AppointmentsService,
     private loadingCtrl: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) {
     this.userToken = {
       token: JSON.parse(localStorage.getItem('currentToken') || '{}') as string,
@@ -50,31 +64,40 @@ export class NewPaymentsPage implements OnInit {
 
   async ngOnInit() {
     this.loading = await this.showLoading();
-    // Initial fetch of open and closed appointments
     this.pastPayments();
     this.myWithdrawals();
     this.getNurseBalance();
-    // Periodically fetch open and closed appointments every 6 seconds
-    setInterval(() => {
+
+    // Periodically fetch data and store the interval ID
+    this.intervalId = setInterval(() => {
       this.pastPayments();
       this.getNurseBalance();
       this.myWithdrawals();
-    }, 6000); // 6000 milliseconds = 6 seconds
+    }, 10000);
   }
 
   getNurseBalance() {
-    this._appointmentService.getNurseBalance(this.userToken).subscribe(
-      (res: any) => {
-        this.balance = res.balance;
-        this.currentBalance = this.balance;
-        this.dataAvailable = true;
-        console.log('Balancet', this.balance);
-      },
-      (error) => {
-        this.dataAvailable = false;
-        this.presentErrorAlert(error.error);
-      }
-    );
+    this._appointmentService
+      .getNurseBalance(this.userToken)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res: any) => {
+          this.balance = res.balance;
+          this.currentBalance = this.balance;
+          this.dataAvailable = true;
+          console.log('Balancet', this.balance);
+        },
+        (error) => {
+          this.dataAvailable = false;
+          this.presentErrorAlert(error.error);
+          if (
+            error.error.message ===
+            'Your authentication token has Expired. Login again'
+          ) {
+            this.router.navigate(['/login']);
+          }
+        }
+      );
   }
 
   enableDetailsButton() {
@@ -167,28 +190,37 @@ export class NewPaymentsPage implements OnInit {
       passibleArrivalTime: this.calculateArrivalDate(),
     };
     console.log(withdrawPayload);
-    this._appointmentService.requestWithrawal(withdrawPayload).subscribe(
-      (res) => {
-        this.closeWithdrawMode();
-        this.dismissLoading(this.loading);
-        this.presentSuccessAlert(withdrawPayload);
-        this.withdrawalAmount = 0;
-        this.phoneNumber = '';
-        this.withdrawalAmount = 0;
-      },
-      (error) => {
-        this.dismissLoading(this.loading);
-        this.presentErrorAlert(error.error);
-        console.log(error);
-      }
-    );
+    this._appointmentService
+      .requestWithrawal(withdrawPayload)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res) => {
+          this.closeWithdrawMode();
+          this.dismissLoading(this.loading);
+          this.presentSuccessAlert(withdrawPayload);
+          this.withdrawalAmount = 0;
+          this.phoneNumber = '';
+          this.withdrawalAmount = 0;
+        },
+        (error) => {
+          this.dismissLoading(this.loading);
+          this.presentErrorAlert(error.error);
+          console.log(error);
+          if (
+            error.error.message ===
+            'Your authentication token has Expired. Login again'
+          ) {
+            this.router.navigate(['/login']);
+          }
+        }
+      );
   }
 
   async pastPayments() {
     this.pasPaymentLists = this._appointmentService.getClosedAppointments(
       this.userToken
     );
-    this.dataPastPaymentSubcription = this.pasPaymentLists.subscribe(
+    this.pasPaymentLists.pipe(takeUntil(this.destroy$)).subscribe(
       (appointment: any) => {
         this.dismissLoading(this.loading);
         this.originalPastPayment = appointment; // Initialize the original list
@@ -197,22 +229,31 @@ export class NewPaymentsPage implements OnInit {
       (error) => {
         this.dismissLoading(this.loading);
         console.log(error.error.message);
+        if (
+          error.error.message ===
+          'Your authentication token has Expired. Login again'
+        ) {
+          this.router.navigate(['/login']);
+        }
       }
     );
     // this.dataOpenSubcription = this.openAppointmentLists.subscribe
   }
 
   async myWithdrawals() {
-    this._appointmentService.getMyWithrawal(this.userToken).subscribe(
-      (withdrwals: any) => {
-        this.dismissLoading(this.loading);
-        this.myPastWithdrawals = withdrwals;
-      },
-      (error) => {
-        this.dismissLoading(this.loading);
-        console.log(error.error.message);
-      }
-    );
+    this._appointmentService
+      .getMyWithrawal(this.userToken)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (withdrwals: any) => {
+          this.dismissLoading(this.loading);
+          this.myPastWithdrawals = withdrwals;
+        },
+        (error) => {
+          this.dismissLoading(this.loading);
+          console.log(error.error.message);
+        }
+      );
     // this.dataOpenSubcription = this.openAppointmentLists.subscribe
   }
 
@@ -256,8 +297,14 @@ export class NewPaymentsPage implements OnInit {
 
     await alert.present();
   }
+
   async presentErrorAlert(error: Error) {
-    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+    // Check if there is already an error alert open, and dismiss it if it exists
+    if (this.currentErrorAlert) {
+      this.currentErrorAlert.dismiss();
+    }
+
+    const errorMessage = error.message ? error.message : 'Server Error';
 
     const alert = await this.alertController.create({
       header: 'Error',
@@ -266,11 +313,13 @@ export class NewPaymentsPage implements OnInit {
     });
 
     await alert.present();
+
+    // Set the currently displayed error alert
+    this.currentErrorAlert = alert;
   }
 
   ngOnDestroy(): void {
-    if (this.dataPastPaymentSubcription) {
-      this.dataPastPaymentSubcription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

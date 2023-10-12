@@ -48,6 +48,7 @@ export class VerificationPage implements OnInit, OnDestroy {
             console.log(res);
             this.dismissLoading(loading);
             this.presentResendAlert();
+            this.router.navigate(['/verify']);
           },
           (error) => {
             this.dismissLoading(loading); // Dismiss the loading spinner on error
