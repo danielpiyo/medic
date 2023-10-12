@@ -30,6 +30,9 @@
       <ion-item *ngIf="withdrawalAmount > currentBalance && withdrawalAmount > 0" lines="none">
         <ion-text color="danger">Withdrawal amount exceeds the current balance!</ion-text>
       </ion-item>
+      <ion-item *ngIf="withdrawalAmount <= 0" lines="none">
+        <ion-text color="danger">Withdrawal amount can not be less than 1</ion-text>
+      </ion-item>
 
       <!-- Grid for buttons -->
       <ion-row justify-content-between>
@@ -91,13 +94,13 @@
       </ion-card>
       <ion-item>
         <ion-label>Current Balance:</ion-label>
-        <ion-label>{{ currentBalance | currency }}</ion-label>
+        <ion-label>Ksh.{{ currentBalance | currency }}</ion-label>
       </ion-item>
 
       <!-- New Balance (calculated in the template) -->
       <ion-item *ngIf="withdrawalAmount <= currentBalance">
         <ion-label>New Balance:</ion-label>
-        <ion-label>{{ (currentBalance - withdrawalAmount ) | currency }}</ion-label>
+        <ion-label>Ksh. {{ (currentBalance - withdrawalAmount ) | currency }}</ion-label>
       </ion-item>
 
       <div *ngIf="!showWithdrawSection && !showDetailsSection">
@@ -150,7 +153,7 @@
               {{cappointment.patient}}
             </ion-col>
             <ion-col size="3">
-              ksh.{{ cappointment.amount }}/=
+              ksh.{{ cappointment.pending_amount }}/=
             </ion-col>
           </ion-row>
         </ion-item>

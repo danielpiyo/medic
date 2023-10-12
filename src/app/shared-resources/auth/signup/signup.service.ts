@@ -10,6 +10,7 @@ import {
   VericationCodePayload,
   AcademicOnboardPayload,
   ExperienceOnboardPayload,
+  ResendCodePayload,
 } from '../../types/type.model';
 @Injectable({
   providedIn: 'root',
@@ -57,6 +58,13 @@ export class SignupService {
     return this._http.post<VericationCodePayload>(
       `${environment.baseURL}/doctorVerify`,
       verificationData
+    );
+  }
+
+  resendCode(resendData: ResendCodePayload): Observable<ResendCodePayload> {
+    return this._http.post<ResendCodePayload>(
+      `${environment.baseURL}/resendCodeDoctor`,
+      resendData
     );
   }
 }

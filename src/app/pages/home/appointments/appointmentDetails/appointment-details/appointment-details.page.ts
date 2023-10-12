@@ -80,7 +80,7 @@ export class AppointmentDetailsPage implements OnInit, OnDestroy {
     const payload: InitiateAppointmentPayload = {
       token: this.currentToken,
       id: this.data.id,
-      appointment_status: 'Attending',
+      appointment_status: 'Service started',
     };
     this.startPreSubscription = this.appointmentService
       .initiateAttendance(payload)

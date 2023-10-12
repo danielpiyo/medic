@@ -92,16 +92,16 @@ export class NewPaymentsPage implements OnInit {
 
   calculateTransactionFee(): number {
     // Define the transaction fee tiers
-    const tier1Threshold = 800;
-    const tier2Threshold = 400;
+    const tier1Threshold = 2200;
+    const tier2Threshold = 1500;
 
     // Calculate the transaction fee based on the withdrawal amount
     if (this.withdrawalAmount > tier1Threshold) {
-      return 100; // Transaction fee is $100 for amounts exceeding 800
+      return 80; // Transaction fee is $100 for amounts exceeding 800
     } else if (this.withdrawalAmount >= tier2Threshold) {
-      return 50; // Transaction fee is $50 for amounts between 400 and 800 (inclusive)
+      return 60; // Transaction fee is $50 for amounts between 400 and 800 (inclusive)
     } else {
-      return 20; // Transaction fee is $20 for amounts below 400
+      return 30; // Transaction fee is $20 for amounts below 400
     }
   }
 

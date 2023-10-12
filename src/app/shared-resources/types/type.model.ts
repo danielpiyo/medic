@@ -208,12 +208,15 @@ export interface MyAppointmentDetails {
   service: string;
   distance: number;
   amount: number;
+  pending_amount: number;
+  balance: number;
   contact: string;
   is_complete: number;
   createdDate: string;
   bookTime: Date;
   latitude: number;
   longitude: number;
+  appointment_status: string;
   place: string;
   hasChronic: string;
   description: string;
@@ -222,6 +225,10 @@ export interface MyAppointmentDetails {
 }
 export interface VericationCodePayload {
   reg_code: string;
+  email: string;
+}
+
+export interface ResendCodePayload {
   email: string;
 }
 

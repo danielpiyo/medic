@@ -37,7 +37,12 @@
             <ion-textarea rows="4" readonly>{{ data.description }}</ion-textarea>
           </ion-col>
         </ion-row>
-        <ion-button expand="block" color="secondary" (click)="startPrescribe()">Attend to Patient</ion-button>
+        <!-- if the appointment not closed -->
+        <div *ngIf="data.appointment_status !== 'Completed'"> <ion-button expand="block" color="secondary"
+            (click)="startPrescribe()">Attend to Patient</ion-button></div>
+        <div *ngIf="data.appointment_status === 'Completed'">
+          <ion-chip>This Appointment Was attended To. Wait for the Patient to Confirm it.</ion-chip>
+        </div>
       </div>
       <br>
       <!-- Star the prescription -->
