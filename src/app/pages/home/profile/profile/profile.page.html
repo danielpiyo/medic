@@ -1,16 +1,3 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <div class="header-bck">
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/patient/service"></ion-back-button>
-      </ion-buttons>
-    </div>
-  </ion-toolbar>
-</ion-header>
-<div class="top-header">
-
-</div> -->
-
 <ion-menu side="start" contentId="main-content">
   <app-nurse-menu></app-nurse-menu>
 </ion-menu>
@@ -41,16 +28,29 @@
         <ion-item> Email: {{ currentUser.email }} </ion-item>
         <ion-item> Contact No: {{ currentUser.mobile }} </ion-item>
         <ion-item> Location: {{ currentUser.address }} </ion-item>
-        <ion-item> Linces No: NXR5353JY </ion-item>
       </ion-list>
+      <!-- Availability -->
+      <div class="active-inactive">
+        <hr>
+        <div class="holder"> <ion-label>My Availability: {{ toggleState ? 'Online' : 'Offline' }}</ion-label>
+          <ion-toggle slot="end" [(ngModel)]="toggleState" (ionChange)="toggleChanged()"></ion-toggle>
+        </div>
+      </div>
+
+      <!-- share -->
+      <div class="action-button">
+        <ion-button (click)="editProfile()" shape="round" color="success">
+          <ion-icon name="wallet-outline"></ion-icon> ||
+          My Wallet
+        </ion-button>
+        <hr>
+        <ion-button shape="round" color="danger" (click)="logOut()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          LogOut</ion-button>
+      </div>
+
     </div>
-    <div class="action-button">
-      <ion-button (click)="editProfile()" shape="round" color="success">
-        <ion-icon name="share"></ion-icon>
-        Invite Friends
-      </ion-button>
-    </div>
-    <!-- <ion-button (click)="logOut()">LogOut</ion-button> -->
+
   </ion-content>
 
 </div>

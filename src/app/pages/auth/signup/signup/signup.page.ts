@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { SignupService } from 'src/app/shared-resources/auth/signup/signup.service';
 import { SignupPayload } from 'src/app/shared-resources/types/type.model';
 import { VerificationPage } from '../verification/verification.page';
+import { NurseSettingsPage } from 'src/app/pages/home/settings/nurse-settings/nurse-settings.page';
 
 @Component({
   selector: 'app-signup',
@@ -37,16 +38,17 @@ export class SignupPage implements OnInit, OnDestroy {
   initForm() {
     this.signUpForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
+      acceptTerms: [false, Validators.requiredTrue],
     });
   }
 
   async signUp() {
+    const loading = await this.showLoading();
     if (this.signUpForm.valid) {
       const signUpPayload: SignupPayload = {
         email: this.signUpForm.value.email,
       };
       try {
-        const loading = await this.showLoading();
         this.dataSubscription = this._signUpService
           .signUp(signUpPayload)
           .subscribe(
@@ -89,9 +91,11 @@ export class SignupPage implements OnInit, OnDestroy {
   }
 
   async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `Error: ${error.message}`,
+      message: errorMessage,
       buttons: ['OK'],
     });
 
@@ -108,8 +112,15 @@ export class SignupPage implements OnInit, OnDestroy {
     }
   }
 
+  async openTermsModal() {
+    const modalInstance = await this.modalController.create({
+      component: NurseSettingsPage,
+    });
+    return await modalInstance.present();
+  }
+
   async openVerifyModal(data: SignupPayload) {
-    console.log('Data', data);
+    // console.log('Data', data);
     const modalInstance = await this.modalController.create({
       component: VerificationPage,
       componentProps: {

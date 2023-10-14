@@ -17,69 +17,78 @@
     <ion-card-header>Request: {{ data.service }}</ion-card-header>
     <ion-card-content>
       <!-- patients request details -->
-      <ion-row>
-        <ion-col size="5.0" class="patient-details">
-          <h3><u>Patient Details</u></h3>
-          <hr>
-          <h3><strong>{{ data.patient }}</strong></h3>
-          <h3>Contact: {{ data.contact }}</h3>
-          <h3>Chronic Disease: {{ data.hasChronic }}</h3>
-          <ion-button (click)="showMap()" color="secondary">Show Map
-            <ion-icon name="locate-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col size="0.5"></ion-col>
-        <ion-col size="6" class="patient-details">
-          <h2><u>Patient Description</u></h2>
-          <ion-textarea rows="4" readonly>{{ data.description }}</ion-textarea>
-        </ion-col>
-      </ion-row>
-      <br>
-      <!-- Medical specialist  -->
-      <div class="patient-details details-textarea">
-        <ion-textarea label-placement="floating" fill="outline" label="Prescription:" rows="4"></ion-textarea>
+      <div>
+        <ion-row>
+          <ion-col size="5.0" class="patient-details">
+            <h3><u>Patient Details</u></h3>
+            <hr>
+            <h3><strong>{{ data.patient }}</strong></h3>
+            <h3>Contact: {{ data.contact }}</h3>
+            <h3>Chronic Disease: {{ data.hasChronic }}</h3>
+            <br>
+            <hr>
+            <ion-button (click)="showMap()" color="dark">Show Map
+              <ion-icon name="locate-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="0.5"></ion-col>
+          <ion-col size="6" class="patient-details">
+            <h2><u>Patient Description</u></h2>
+            <ion-textarea rows="4" readonly>{{ data.description }}</ion-textarea>
+          </ion-col>
+        </ion-row>
+        <!-- if the appointment not closed -->
+        <div *ngIf="data.appointment_status !== 'Completed'"> <ion-button expand="block" color="secondary"
+            (click)="startPrescribe()">Attend to Patient</ion-button></div>
+        <div *ngIf="data.appointment_status === 'Completed'">
+          <ion-chip>This Appointment Was attended To. Wait for the Patient to Confirm it.</ion-chip>
+        </div>
       </div>
-
-
       <br>
-      <!-- further action (lower section) -->
-      <ion-row>
-        <ion-col size="5" class="patient-details">
-          <h2><u>Suggestion</u></h2>
-          <ion-card class="details-textarea">
-            <ion-checkbox labelPlacement="end" class="remeber-me">Evacuation</ion-checkbox>
-            <ion-checkbox labelPlacement="end" class="remeber-me">Home Visit</ion-checkbox>
-            <ion-checkbox labelPlacement="end" class="remeber-me">Conciage</ion-checkbox>
-          </ion-card>
-        </ion-col>
-        <ion-col size="1"></ion-col>
-        <ion-col size="6">
-          <ion-row>
-            <ion-col size="5">
-              <ion-icon class="iocons" name="call-outline"></ion-icon>
-              <h3>Call</h3>
-            </ion-col>
-            <ion-col size="2">
-            </ion-col>
-            <ion-col size="5">
-              <ion-icon class="iocons" name="videocam-outline"></ion-icon>
-              <h3>Video</h3>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-      <div *ngIf="suggestion">
-        <ion-card>
-          <ion-card-header class="suggestion-h">Medical Suggestions</ion-card-header>
-          <ion-card-content class="suggestion-b">
-            You are about to seggest to this patient. <br>
-            if you are sure click Proceed..
-          </ion-card-content>
-        </ion-card>
+      <!-- Star the prescription -->
+      <div *ngIf="prescribe">
+        <!-- Medical specialist  -->
+        <div class="patient-details details-textarea">
+          <ion-textarea label-placement="floating" fill="outline" label="Prescription:" rows="6"
+            [(ngModel)]="doctor_description" placeholder="Prescription ..."></ion-textarea>
+        </div>
+
+        <br>
+        <!-- further action (lower section) -->
+        <ion-row>
+          <ion-col size="5" class="patient-details">
+            <h2><u>Suggestion</u></h2>
+            <ion-card class="details-textarea">
+              <ion-checkbox labelPlacement="end" [(ngModel)]="selectAll" (ionChange)="selectAllChanged()">Select
+                All</ion-checkbox>
+              <ion-checkbox *ngFor="let option of options" labelPlacement="end" [(ngModel)]="option.selected">{{
+                option.label }}</ion-checkbox>
+            </ion-card>
+          </ion-col>
+          <ion-col size="1"></ion-col>
+          <ion-col size="6">
+            <ion-row>
+              <ion-col size="5">
+                <ion-icon class="iocons" name="call-outline"></ion-icon>
+                <h3>Call</h3>
+              </ion-col>
+              <ion-col size="2">
+              </ion-col>
+              <ion-col size="5">
+                <ion-icon class="iocons" name="videocam-outline"></ion-icon>
+                <h3>Video</h3>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
       </div>
     </ion-card-content>
 
-    <ion-button shape="round" fill="outline" expand="block" color="success">Update </ion-button>
+    <div *ngIf="prescribe">
+      <ion-button shape="round" fill="outline" expand="block" color="success" (click)="updatePatient()">Close this
+        prescription
+      </ion-button>
+    </div>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="closeModal()" color="danger">

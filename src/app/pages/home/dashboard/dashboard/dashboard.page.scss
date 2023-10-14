@@ -11,7 +11,7 @@ ion-toolbar {
   --background: #28a745;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  height: 22vh;
+  height: 15vh;
 }
 
 ion-header {
@@ -44,26 +44,6 @@ ion-chip {
   font-size: 12px;
   font-weight: bold;
   margin-right: 2%;
-}
-
-ion-toggle {
-  zoom: 1.3;
-}
-.active-inactive {
-  width: 100%;
-  background-color: #d2f2d2;
-  margin-top: 3vh;
-  height: 4vh;
-  border-radius: 8px;
-}
-
-.active-inactive ion-label {
-  margin-left: 30%;
-  margin-bottom: 2vh;
-}
-ion-toggle {
-  margin-left: 7%;
-  margin-bottom: 2vh;
 }
 .holder {
   height: 4vh;

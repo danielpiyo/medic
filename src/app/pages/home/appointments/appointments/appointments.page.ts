@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, take, timeout } from 'rxjs';
 import { AppointmentsService } from 'src/app/shared-resources/home/appointments/appointments.service';
+import { Plugins } from '@capacitor/core';
+const { LocalNotifications } = Plugins;
 import {
   MyAppointmentDetails,
   UserToken,
@@ -24,10 +26,11 @@ export class AppointmentsPage implements OnInit {
   dataClosedSubcription!: Subscription;
   userToken!: UserToken;
   modelData: any;
-
+  loading: any;
   targetDate!: Date;
   timeRemaining: string = '';
   appropriateTimeRemaining: any;
+  private notificationShown: boolean = false;
 
   constructor(
     private _appointmentService: AppointmentsService,
@@ -37,55 +40,60 @@ export class AppointmentsPage implements OnInit {
     this.userToken = {
       token: JSON.parse(localStorage.getItem('currentToken') || '{}') as string,
     };
-    this.getOpenApponments();
+    this.getOpenAppointments();
     this.getClosedAppointments();
-    this.calculateTimeRemaining();
   }
 
   async ngOnInit() {
-    const loading = await this.showLoading();
-    setTimeout(() => {
-      this.getClosedAppointments();
-      this.getOpenApponments();
-      this.dismissLoading(loading);
-    }, 4000);
+    this.loading = await this.showLoading();
+    // Initial fetch of open and closed appointments
+    this.getOpenAppointments();
+    this.getClosedAppointments();
+    // Periodically fetch open and closed appointments every 6 seconds
     setInterval(() => {
-      this.calculateTimeRemaining();
-    }, 1000);
+      this.getOpenAppointments();
+      this.getClosedAppointments();
+    }, 6000); // 6000 milliseconds = 6 seconds
   }
 
-  async getOpenApponments() {
-    const loading = await this.showLoading();
+  async getOpenAppointments() {
     this.openAppointmentLists = this._appointmentService.getOpenAppointments(
       this.userToken
     );
-    this.dataOpenSubcription = this.openAppointmentLists.subscribe(
+    this.openAppointmentLists.subscribe(
       (appointment: any) => {
-        this.dismissLoading(loading);
-        this.originalOpenAppointment = appointment; // Initialize the original list
-        this.filteredOpenAppointment = appointment; // Initialize the filtered list
-        console.log('Open Appointment', this.filteredOpenAppointment);
+        this.dismissLoading(this.loading);
+        this.originalOpenAppointment = appointment;
+        this.filteredOpenAppointment = appointment;
         this.targetDate = new Date(this.filteredOpenAppointment[0]?.bookTime);
+        // console.log('MyTarget', this.targetDate);
+        this.calculateTimeRemaining();
+        if (
+          !this.notificationShown &&
+          this.filteredOpenAppointment.length > 0
+        ) {
+          this.showAppointmentNotification();
+          this.notificationShown = true; // Set the flag to true
+        }
       },
       (error) => {
-        this.dismissLoading(loading);
+        this.dismissLoading(this.loading);
         console.log(error.error.message);
       }
     );
   }
 
   async getClosedAppointments() {
-    const loading = await this.showLoading();
     this.closedAppointmentLists =
       this._appointmentService.getClosedAppointments(this.userToken);
-    this.dataClosedSubcription = this.closedAppointmentLists.subscribe(
+    this.closedAppointmentLists.subscribe(
       (appointment: any) => {
-        this.dismissLoading(loading);
-        this.originalClosedAppointment = appointment; // Initialize the original list
-        this.filteredClosedAppointment = appointment; // Initialize the filtered list
+        this.dismissLoading(this.loading);
+        this.originalClosedAppointment = appointment;
+        this.filteredClosedAppointment = appointment;
       },
       (error) => {
-        this.dismissLoading(loading);
+        this.dismissLoading(this.loading);
         console.log(error.error.message);
       }
     );
@@ -131,7 +139,6 @@ export class AppointmentsPage implements OnInit {
       this.timeRemaining = 'Your time is not valid.';
       return;
     }
-
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     const hours = Math.floor(
       (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -158,16 +165,28 @@ export class AppointmentsPage implements OnInit {
     modal.onDidDismiss().then((modelData) => {
       if (modelData !== null) {
         this.modelData = modelData.data;
-        console.log('Modal Data : ' + modelData.data);
+        // console.log('Modal Data : ' + modelData.data);
       }
     });
     return await modal.present();
   }
 
+  async showAppointmentNotification() {
+    await LocalNotifications['schedule']({
+      notifications: [
+        {
+          title: 'New Appointment',
+          body: 'You have a new appointment booked.',
+          sound: '../../../../../assets/notification/alert.mp3', // Replace with your sound file name
+          id: 1,
+        },
+      ],
+    });
+  }
+
   ngOnDestroy(): void {
-    if (this.dataOpenSubcription) {
+    if (this.dataOpenSubcription || this.dataClosedSubcription) {
       this.dataOpenSubcription.unsubscribe();
-    } else if (this.dataClosedSubcription) {
       this.dataClosedSubcription.unsubscribe();
     }
   }

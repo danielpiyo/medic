@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../src/environments/environment';
 import {
   AvailabilityPayload,
+  CheckAvailabilityPayload,
   MyAppointmentDetails,
   UserToken,
 } from '../types/type.model';
@@ -18,6 +19,13 @@ export class AppointmentService {
     return this._http.post(
       `${environment.baseURL}/doctorAvailability`,
       availability
+    );
+  }
+
+  checkAvailability(availabilityCheck: CheckAvailabilityPayload) {
+    return this._http.post(
+      `${environment.baseURL}/checkDoctorAvailability`,
+      availabilityCheck
     );
   }
 }

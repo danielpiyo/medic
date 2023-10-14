@@ -89,6 +89,16 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface ResetCodePayload {
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  email: string;
+  reg_code: string;
+  password: string;
+}
+
 export interface LoginResponse {
   token: string;
   user: {
@@ -111,7 +121,8 @@ export interface BasicOnboardPayload {
   nationalId: number;
   dob: Date;
   gender: string;
-  speciality_id: number;
+  speciality_id: string;
+  dr_type: string;
   name: string;
   email: string;
   password: string;
@@ -197,12 +208,15 @@ export interface MyAppointmentDetails {
   service: string;
   distance: number;
   amount: number;
+  pending_amount: number;
+  balance: number;
   contact: string;
   is_complete: number;
   createdDate: string;
   bookTime: Date;
   latitude: number;
   longitude: number;
+  appointment_status: string;
   place: string;
   hasChronic: string;
   description: string;
@@ -211,6 +225,10 @@ export interface MyAppointmentDetails {
 }
 export interface VericationCodePayload {
   reg_code: string;
+  email: string;
+}
+
+export interface ResendCodePayload {
   email: string;
 }
 
@@ -228,4 +246,63 @@ export interface AvailabilityPayload {
   status: boolean;
   lat: number;
   lng: number;
+}
+
+export interface CheckAvailabilityPayload {
+  token: string;
+}
+export interface CheckAvailabilityResponse {
+  status: boolean;
+}
+
+export interface Prescription {
+  token: string;
+  appointment_id: number;
+  patient: string;
+  patient_id: number;
+  doctor: string;
+  doctor_notes: string;
+  patient_description: string;
+  service: string;
+  service_id: number;
+  suggestion: string[];
+}
+
+export interface InitiateAppointmentPayload {
+  token: string;
+  id: number;
+  appointment_status: string;
+  // rate: number;
+  // appointment_status: string;
+}
+
+export interface closeAppointmentPayload {
+  token: string;
+  id: number;
+}
+
+export interface withdrawaPayload {
+  token: string;
+  withdrawalStatus: string;
+  withdrawalAmount: number;
+  phoneNumber: string;
+  balance: number;
+  amountToRecieve: number;
+  transactionCost: number;
+  passibleArrivalTime: string;
+}
+
+export interface MyPastWithdrawal {
+  id: number;
+  doctor_id: number;
+  w_amount: number;
+  w_phone: string;
+  w_balance: number;
+  amt_to_recieve: number;
+  w_status: string;
+  w_cost: number;
+  w_possible_Atime: string;
+  created_at: Date;
+  updated_at: Date;
+  updated_by: number;
 }

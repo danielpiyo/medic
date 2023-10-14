@@ -32,21 +32,37 @@
           <ion-input label="N ID/Passport No:" label-placement="floating" fill="outline" formControlName="nid"
             type="text"></ion-input>
           <!-- DOB -->
-          <ion-input label="Date of Birth:" label-placement="floating" fill="outline" formControlName="dob"
-            type="text"></ion-input>
+          <ion-input label="Date of Birth:" placeholder="01/12/1972" label-placement="floating" fill="outline"
+            formControlName="dob" type="text"></ion-input>
           <!-- Gender -->
           <ion-select label-placement="floating" fill="outline" formControlName="gender" label="Gender">
             <ion-select-option value="Male">Male</ion-select-option>
             <ion-select-option value="Female">Female</ion-select-option>
           </ion-select>
-          <!-- Speciality -->
-          <ion-select label-placement="floating" fill="outline" formControlName="speciality_id"
-            label="Select speciality">
-            <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
-              [value]="speciality.id">
-              {{speciality.name}}
-            </ion-select-option>
+
+          <!-- doctor type (Nurse/Clinician) -->
+          <ion-select label-placement="floating" fill="outline" formControlName="dr_type" label="Profession"
+            [(ngModel)]="selectedProfession">
+            <ion-select-option value="Nurse">Nurse</ion-select-option>
+            <ion-select-option value="Clinical Officer">Clinical Officer</ion-select-option>
           </ion-select>
+
+          <div *ngIf="selectedProfession === 'Nurse'">
+            <!-- Speciality -->
+            <ion-select label-placement="floating" fill="outline" formControlName="speciality_id"
+              label="Select speciality">
+              <ion-select-option *ngFor="let speciality of(specialityList | async); let i = index"
+                [value]="speciality.name">
+                {{speciality.name}}
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+          <div *ngIf="selectedProfession === 'Clinical Officer'">
+            <!-- Speciality -->
+            <ion-label>Speciality Not Available</ion-label>
+          </div>
+
           <!-- Address -->
           <ion-input label="Address" label-placement="floating" fill="outline" formControlName="address"></ion-input>
 

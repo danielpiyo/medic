@@ -69,6 +69,7 @@ export class MapPage implements OnInit, OnDestroy {
     );
     this.dataOpenSubcription = this.openAppointmentLists.subscribe(
       (appointment: any) => {
+        console.log('Appointments', appointment);
         this.filteredOpenAppointment = appointment[0]; // Initialize the filtered list
         this.targetDate = new Date(this.filteredOpenAppointment?.bookTime);
         this.platform.ready().then(() => {

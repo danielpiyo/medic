@@ -28,6 +28,7 @@ export class BasicPage implements OnInit, OnDestroy {
   specialityList!: Observable<Speciality[]>;
   responseData!: LoginResponse;
   UserEmail!: string;
+  selectedProfession: string = '';
   private dataSubscription!: Subscription;
 
   constructor(
@@ -64,11 +65,13 @@ export class BasicPage implements OnInit, OnDestroy {
       address: ['', Validators.required],
       location_id: ['', Validators.required],
       gender: ['', Validators.required],
-      speciality_id: ['', Validators.required],
+      speciality_id: [''],
+      dr_type: ['', Validators.required],
     });
   }
 
   async onBoardNurse() {
+    const loading = await this.showLoading(); // Display loading spinner
     if (
       this.basicFormGroup.valid &&
       this.basicFormGroup.value.confirmPassword ===
@@ -79,6 +82,7 @@ export class BasicPage implements OnInit, OnDestroy {
         dob: this.basicFormGroup.get('dob')!.value,
         gender: this.basicFormGroup.get('gender')!.value,
         speciality_id: this.basicFormGroup.get('speciality_id')!.value,
+        dr_type: this.basicFormGroup.get('dr_type')!.value,
         name: this.basicFormGroup.get('name')!.value,
         email: this.UserEmail,
         password: this.basicFormGroup.get('password')!.value,
@@ -87,10 +91,7 @@ export class BasicPage implements OnInit, OnDestroy {
         location_id: this.basicFormGroup.get('location_id')!.value,
       };
       console.log('Details', nurseDetails);
-
       try {
-        const loading = await this.showLoading(); // Display loading spinner
-
         this.dataSubscription = this.onboardService
           .basicOnBoard(nurseDetails)
           .subscribe(
@@ -113,6 +114,10 @@ export class BasicPage implements OnInit, OnDestroy {
       } catch (error) {
         console.error('Error while displaying/loading spinner:', error);
       }
+    } else {
+      this.dismissLoading(loading);
+      this.presentErrorPaswwordAlert();
+      // alert('Password Dont Match');
     }
   }
   async showLoading() {
@@ -149,10 +154,22 @@ export class BasicPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  async presentErrorAlert(error: any) {
+  async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `Error: Email already taken`,
+      message: errorMessage,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  async presentErrorPaswwordAlert() {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: `Error: Your Password Do not match`,
       buttons: ['OK'],
     });
 

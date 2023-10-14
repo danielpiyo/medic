@@ -78,8 +78,22 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'forgot',
+    loadChildren: () =>
+      import(
+        '../pages/auth/forgotpassword/forgot-password/forgot-password.module'
+      ).then((m) => m.ForgotPasswordPageModule),
+  },
+  {
+    path: 'terms-conditions',
+    loadChildren: () =>
+      import(
+        '../pages/home/settings/nurse-settings/nurse-settings.module'
+      ).then((m) => m.NurseSettingsPageModule),
+  },
+  {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/home/dashboard',
     pathMatch: 'full',
   },
 ];

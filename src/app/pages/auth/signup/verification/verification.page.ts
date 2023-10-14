@@ -8,6 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 import { SignupService } from 'src/app/shared-resources/auth/signup/signup.service';
 import {
+  ResendCodePayload,
   SignupPayload,
   VericationCodePayload,
 } from 'src/app/shared-resources/types/type.model';
@@ -32,6 +33,41 @@ export class VerificationPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log(this.data);
+  }
+
+  async resend() {
+    const loading = await this.showLoading();
+    const resendCode: ResendCodePayload = {
+      email: this.data.email,
+    };
+    try {
+      this.dataSubscription = this._verificationService
+        .resendCode(resendCode)
+        .subscribe(
+          (res) => {
+            console.log(res);
+            this.dismissLoading(loading);
+            this.presentResendAlert();
+            this.router.navigate(['/verify']);
+          },
+          (error) => {
+            this.dismissLoading(loading); // Dismiss the loading spinner on error
+            this.presentErrorAlert(error.error);
+          }
+        );
+    } catch (error) {
+      console.error('Error while displaying/loading spinner:', error);
+    }
+  }
+
+  async presentResendAlert() {
+    const alert = await this.alertController.create({
+      header: 'Success',
+      message: 'Activation Code resent. Please check your Email!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
   async submit() {
@@ -92,9 +128,11 @@ export class VerificationPage implements OnInit, OnDestroy {
   }
 
   async presentErrorAlert(error: Error) {
+    const errorMessage = error.message ? error.message : 'Server Error'; // Check if error.message is defined, otherwise use "Server Error"
+
     const alert = await this.alertController.create({
       header: 'Error',
-      message: `Error: ${error.message}`,
+      message: errorMessage,
       buttons: ['OK'],
     });
 
@@ -112,8 +150,6 @@ export class VerificationPage implements OnInit, OnDestroy {
       console.log('No open modal found. Doing something else...');
     }
   }
-
-  resend() {}
 
   ngOnDestroy() {
     if (this.dataSubscription) {

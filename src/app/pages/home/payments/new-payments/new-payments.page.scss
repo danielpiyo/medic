@@ -49,3 +49,67 @@ ion-col {
   font-size: 13.5px;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
+
+/* Style for the greenish border */
+.details-card {
+  border: 2px solid #4caf50; /* Greenish color */
+  border-radius: 5px;
+}
+
+/* Style for the "Details" heading */
+.details-header {
+  font-size: 16px;
+  color: #4caf50; /* Greenish color */
+}
+
+/* Style for the content within the "Details" section */
+.details-content {
+  font-size: 14px;
+}
+
+ion-icon {
+  zoom: 1.5;
+}
+.withdraw {
+  border: 2px solid #4caf50; /* Greenish color */
+  border-radius: 5px;
+}
+
+.error-content {
+  --border-color: #34d399; /* Define your greenish border color */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: white;
+
+  .error-container {
+    text-align: center;
+    padding: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    max-width: 300px;
+  }
+
+  .error-image {
+    width: 180px; /* Adjust image size as needed */
+    height: 180px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .error-message {
+    font-size: 24px;
+    margin-top: 10px;
+    color: var(--border-color);
+    font-weight: bold;
+  }
+
+  .error-description {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #333;
+  }
+}

@@ -7,6 +7,9 @@ import {
   UserToken,
 } from 'src/app/shared-resources/types/type.model';
 import { ToastController } from '@ionic/angular';
+import { PushNotificationService } from 'src/app/shared-resources/notification/push-notification.service';
+import { Plugins } from '@capacitor/core';
+const { LocalNotifications } = Plugins;
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +24,8 @@ export class DashboardPage implements OnInit {
   currentToken!: string;
   constructor(
     private availabilityService: AppointmentService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private pushNotificationService: PushNotificationService
   ) {
     this.currentToken = JSON.parse(
       localStorage.getItem('currentToken') || '{}'
@@ -42,28 +46,9 @@ export class DashboardPage implements OnInit {
     console.log('Current position:', this.coordinates);
   };
 
-  toggleChanged() {
-    console.log('Toggle state:', this.toggleState);
-    const availabilityDetails: AvailabilityPayload = {
-      token: this.currentToken,
-      lat: this.coordinates.latitude,
-      lng: this.coordinates.longitude,
-      status: this.toggleState,
-    };
-    console.log(availabilityDetails);
-    this.availabilityService.changeAvailability(availabilityDetails).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
   async presentLocationToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Enable your Location First',
+      message: 'Check Your Network or Location if enabled',
       duration: 3500,
       position: position,
     });
